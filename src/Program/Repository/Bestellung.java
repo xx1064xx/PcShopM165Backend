@@ -7,7 +7,6 @@ public class Bestellung {
 
 
     private int bestellungsId;
-    private int bestellnummer;
     private Date bestelldatum;
     private Kunde kunde;
     private ArrayList<Bestellposition> bestellpositionen;
@@ -21,9 +20,6 @@ public class Bestellung {
         return bestellungsId;
     }
 
-    public int getBestellnummer() {
-        return bestellnummer;
-    }
 
     public Date getBestelldatum() {
         return bestelldatum;
@@ -39,10 +35,6 @@ public class Bestellung {
 
     public double getTotal() {
         return total;
-    }
-
-    public void setBestellnummer(int bestellnummer) {
-        this.bestellnummer = bestellnummer;
     }
 
     public void setBestelldatum(Date bestelldatum) {

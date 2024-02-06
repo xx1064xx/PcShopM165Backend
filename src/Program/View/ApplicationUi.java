@@ -1,0 +1,55 @@
+package Program.View;
+
+import javax.swing.*;
+
+public class ApplicationUi {
+    private JTabbedPane TabPane;
+    private JPanel panel1;
+    private JList computerList;
+    private JList kundenList;
+    private JList bestellungsList;
+    private JTabbedPane bestellungTab;
+    private JTextField bestellungBestellnummerField;
+    private JButton newButtonBestellung;
+    private JButton deleteButtonBestellung;
+    private JButton saveButtonBestellung;
+    private JTextField bestellungBestelldatumField;
+    private JTextField bestellungKundeField;
+    private JTextField bestellungTotalField;
+    private JList bestellpositionList;
+    private JButton newButtonBestellposition;
+    private JButton deleteButtonBestellposition;
+    private JButton saveButtonBestellposition;
+    private JTextField bestellpositionEinzelpreisField;
+    private JTextField BestellpositionComputerField;
+    private JTextField bestellpositionStueckzahlField;
+    private JTabbedPane tabbedPane1;
+    private JList SchnittstellenList;
+    private JButton newButtonSchnittstellen;
+    private JButton deleteButtonSchnittstellen;
+    private JButton saveButtonSchnittstellen;
+    private JTextField schnittstellenSchnittstelleField;
+    private JTextField computerHerstellerField;
+    private JButton newButtonComputer;
+    private JButton deleteButtonComputer;
+    private JButton saveButtonComputer;
+    private JTextField computerModellField;
+    private JTextField computerArbeitsspeicherField;
+    private JTextField computerCpuField;
+    private JTextField computerMassenspeicherField;
+    private JTextField computerTypField;
+    private JTextField computerEinzelpreisField;
+    private JButton newButtonKunde;
+    private JButton deleteButtonKunde;
+    private JButton saveButtonKunde;
+    private JTextField kundenNachnameField;
+    private JTextField kundenGeschlechtField;
+    private JTextField kundenVornameField;
+    private JTextField kundenStrasseField;
+    private JTextField kundenPlzField;
+    private JTextField kundenOrtField;
+    private JTextField kundenTelefonField;
+    private JTextField kundenEmailField;
+    private JTextField kundenSpracheField;
+    private JTextField kundenGeburtsdatumField;
+}
