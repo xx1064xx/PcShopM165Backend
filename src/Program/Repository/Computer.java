@@ -1,5 +1,7 @@
 package Program.Repository;
 
+import Program.Controller.Controller;
+
 import java.util.ArrayList;
 
 public class Computer{
@@ -12,6 +14,10 @@ public class Computer{
     private String typ;
     private double einzelpreis;
     private ArrayList<Schnittstelle> schnittstellen;
+
+    public Computer() {
+
+    }
 
 
 
