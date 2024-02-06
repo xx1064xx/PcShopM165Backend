@@ -7,8 +7,6 @@ public class Main {
 
         Controller controller = new Controller();
 
-        System.out.println("huere mongo");
-
         controller.run();
     }
 }

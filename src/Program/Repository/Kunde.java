@@ -14,6 +14,18 @@ public class Kunde {
     private String sprache;
     private Date geburtsdatum;
 
+
+    public Kunde(String geschlecht, String nachname, String vorname, Adresse adresse, String telefon, String email, String sprache, Date geburtsdatum) {
+        this.geschlecht = geschlecht;
+        this.nachname = nachname;
+        this.vorname = vorname;
+        this.adresse = adresse;
+        this.telefon = telefon;
+        this.email = email;
+        this.sprache = sprache;
+        this.geburtsdatum = geburtsdatum;
+    }
+
     public Kunde() {
 
     }
