@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Computer{
 
+    private int computerId;
     private String hersteller;
     private String modell;
     private int arbeitsspeicher;
@@ -20,7 +21,9 @@ public class Computer{
     }
 
 
-
+    public int getComputerId() {
+        return computerId;
+    }
 
     public String getHersteller() {
         return hersteller;
@@ -84,5 +87,9 @@ public class Computer{
 
     public void setSchnittstellen(ArrayList<Schnittstelle> schnittstellen) {
         this.schnittstellen = schnittstellen;
+    }
+
+    public void setComputerId(int computerId) {
+        this.computerId = computerId;
     }
 }

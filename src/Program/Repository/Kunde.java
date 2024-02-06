@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Kunde {
 
+    private int kundenId;
     private String geschlecht;
     private String nachname;
     private String vorname;
@@ -17,6 +18,9 @@ public class Kunde {
 
     }
 
+    public int getKundenId() {
+        return kundenId;
+    }
 
     public String getGeschlecht() {
         return geschlecht;
@@ -80,5 +84,9 @@ public class Kunde {
 
     public void setGeburtsdatum(Date geburtsdatum) {
         this.geburtsdatum = geburtsdatum;
+    }
+
+    public void setKundenId(int kundenId) {
+        this.kundenId = kundenId;
     }
 }

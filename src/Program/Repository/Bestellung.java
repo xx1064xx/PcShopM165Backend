@@ -5,6 +5,8 @@ import java.util.Date;
 
 public class Bestellung {
 
+
+    private int bestellungsId;
     private int bestellnummer;
     private Date bestelldatum;
     private Kunde kunde;
@@ -15,6 +17,9 @@ public class Bestellung {
 
     }
 
+    public int getBestellungsId() {
+        return bestellungsId;
+    }
 
     public int getBestellnummer() {
         return bestellnummer;
@@ -54,5 +59,9 @@ public class Bestellung {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public void setBestellungsId(int bestellungsId) {
+        this.bestellungsId = bestellungsId;
     }
 }
