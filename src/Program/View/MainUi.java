@@ -24,6 +24,9 @@ public class MainUi extends JFrame {
     private JButton kundenAddButton;
     private JButton computerAddButton;
     private JButton bestellungsAddButton;
+    private JButton kundenDeleteButton;
+    private JButton computerDeleteButton;
+    private JButton bestellungsDeleteButton;
 
     // lists
     private JList<String> kundenList;
@@ -31,11 +34,12 @@ public class MainUi extends JFrame {
     private JList<String> bestellungsList;
 
     // panels
-    private JPanel mainPanel;
     private JPanel kundenPanel;
     private JPanel computerPanel;
     private JPanel bestellungsPanel;
-
+    private JPanel kundenButtonPanel;
+    private JPanel computerButtonPanel;
+    private JPanel bestellungsButtonPanel;
     // tabbedpane
     private JTabbedPane tabbedPane;
 
@@ -48,6 +52,7 @@ public class MainUi extends JFrame {
     private DefaultListModel<String> kundenListModel;
     private DefaultListModel<String> computerListModel;
     private DefaultListModel<String> bestellungsListModel;
+
 
     // functions
 
@@ -63,7 +68,9 @@ public class MainUi extends JFrame {
     public void init() {
         setTitle("Option Selection");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 500);
+
+        setMinimumSize(new Dimension(350, 500));
+
         setLayout(new BorderLayout());
 
         tabbedPane = new JTabbedPane();
@@ -84,18 +91,35 @@ public class MainUi extends JFrame {
         computerListScrollPane = new JScrollPane(computerList);
         bestellungsListScrollPane = new JScrollPane(bestellungsList);
 
+        kundenButtonPanel = new JPanel();
+        computerButtonPanel = new JPanel();
+        bestellungsButtonPanel = new JPanel();
+
         kundenAddButton = new JButton("Neuer Kunde");
         computerAddButton = new JButton("Neuer Computer");
         bestellungsAddButton = new JButton("Neue Bestellung");
 
+        kundenDeleteButton = new JButton("Kunde löschen");
+        computerDeleteButton = new JButton("Computer löschen");
+        bestellungsDeleteButton = new JButton("Bestellung löschen");
+
+        kundenButtonPanel.add(kundenAddButton);
+        kundenButtonPanel.add(kundenDeleteButton);
+
+        computerButtonPanel.add(computerAddButton);
+        computerButtonPanel.add(computerDeleteButton);
+
+        bestellungsButtonPanel.add(bestellungsAddButton);
+        bestellungsButtonPanel.add(bestellungsDeleteButton);
+
         kundenPanel.add(kundenListScrollPane, BorderLayout.CENTER);
-        kundenPanel.add(kundenAddButton, BorderLayout.SOUTH);
+        kundenPanel.add(kundenButtonPanel, BorderLayout.SOUTH);
 
         computerPanel.add(computerListScrollPane, BorderLayout.CENTER);
-        computerPanel.add(computerAddButton, BorderLayout.SOUTH);
+        computerPanel.add(computerButtonPanel, BorderLayout.SOUTH);
 
         bestellungsPanel.add(bestellungsListScrollPane, BorderLayout.CENTER);
-        bestellungsPanel.add(bestellungsAddButton, BorderLayout.SOUTH);
+        bestellungsPanel.add(bestellungsButtonPanel, BorderLayout.SOUTH);
 
         tabbedPane.addTab("Kunden", kundenPanel);
         tabbedPane.addTab("Computer", computerPanel);
@@ -105,6 +129,9 @@ public class MainUi extends JFrame {
 
         addActionListener();
         addMouseListener();
+
+        pack();
+        setLocationRelativeTo(null);
 
         setVisible(true);
     }
@@ -117,7 +144,7 @@ public class MainUi extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                kundenUi = new KundenUi(mainUi);
+                kundenUi = new KundenUi(mainUi, true);
 
             }
         });
@@ -126,7 +153,7 @@ public class MainUi extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                computerUi = new ComputerUi(mainUi);
+                computerUi = new ComputerUi(mainUi, true);
 
             }
         });
@@ -135,7 +162,7 @@ public class MainUi extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                bestellungsUi = new BestellungsUi(mainUi);
+                bestellungsUi = new BestellungsUi(mainUi, true);
 
             }
         });
