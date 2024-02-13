@@ -133,7 +133,7 @@ public class BestellungsUi extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                bestellpositionUi = new BestellpositionUi(bestellungsUi);
+                bestellpositionUi = new BestellpositionUi(bestellungsUi, true);
 
             }
         });
