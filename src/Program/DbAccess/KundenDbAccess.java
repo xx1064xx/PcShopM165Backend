@@ -1,19 +1,25 @@
 package Program.DbAccess;
 
+import Program.Service.KundenService;
 import com.mongodb.client.*;
 import org.bson.Document;
 
 
-import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.List;
 
-public class DbAccess {
+public class KundenDbAccess {
 
+    private KundenService kundenService;
     private MongoClient mongoClient;
     private MongoDatabase mongoDatabase;
     private String database = "pcShopM165";
     private String connectionString = "mongodb://localhost:27017";
+
+    public KundenDbAccess(KundenService kundenService) {
+
+        this.kundenService = kundenService;
+        connectToDb();
+    }
     public void connectToDb() {
 
         mongoClient = MongoClients.create(connectionString);

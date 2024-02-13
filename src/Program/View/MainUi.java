@@ -1,6 +1,7 @@
 package Program.View;
 
 import Program.Controller.Controller;
+import Program.Repository.Kunde;
 
 import javax.swing.*;
 import java.awt.*;
@@ -201,6 +202,10 @@ public class MainUi extends JFrame {
                 }
             }
         });
+    }
+
+    public void addNewKunde(Kunde kunde) {
+        controller.addNewKunde(kunde);
     }
 
 

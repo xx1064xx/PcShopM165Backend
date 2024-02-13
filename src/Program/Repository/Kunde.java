@@ -1,10 +1,12 @@
 package Program.Repository;
 
+import org.bson.types.ObjectId;
+
 import java.util.Date;
 
 public class Kunde {
 
-    private int kundenId;
+    private ObjectId kundenId;
     private String geschlecht;
     private String nachname;
     private String vorname;
@@ -26,11 +28,23 @@ public class Kunde {
         this.geburtsdatum = geburtsdatum;
     }
 
+    public Kunde(ObjectId kundenId, String geschlecht, String nachname, String vorname, Adresse adresse, String telefon, String email, String sprache, Date geburtsdatum) {
+        this.kundenId = kundenId;
+        this.geschlecht = geschlecht;
+        this.nachname = nachname;
+        this.vorname = vorname;
+        this.adresse = adresse;
+        this.telefon = telefon;
+        this.email = email;
+        this.sprache = sprache;
+        this.geburtsdatum = geburtsdatum;
+    }
+
     public Kunde() {
 
     }
 
-    public int getKundenId() {
+    public ObjectId getKundenId() {
         return kundenId;
     }
 
@@ -99,6 +113,6 @@ public class Kunde {
     }
 
     public void setKundenId(int kundenId) {
-        this.kundenId = kundenId;
+        this.kundenId = this.kundenId;
     }
 }

@@ -1,15 +1,19 @@
 package Program.Repository;
 
 import Program.Interfaces.IKunde;
+import Program.Service.KundenService;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 
 public class KundenRepository implements IKunde {
 
+    private KundenService kundenService;
     private ArrayList<Kunde> kunden;
 
-    public KundenRepository() {
+    public KundenRepository(KundenService kundenService) {
         this.kunden = new ArrayList<>();
+        this.kundenService = kundenService;
     }
 
     @Override
@@ -19,7 +23,7 @@ public class KundenRepository implements IKunde {
     }
 
     @Override
-    public Kunde getById(int kundenId) {
+    public Kunde getById(ObjectId kundenId) {
         // Rückgabe des Kunden mit der angegebenen ID
         for (Kunde kunde : kunden) {
             if (kunde.getKundenId() == kundenId) {
@@ -47,7 +51,7 @@ public class KundenRepository implements IKunde {
     }
 
     @Override
-    public void delete(int kundenId) {
+    public void delete(ObjectId kundenId) {
         // Löschen eines Kunden anhand der ID
         for (int i = 0; i < kunden.size(); i++) {
             if (kunden.get(i).getKundenId() == kundenId) {

@@ -1,7 +1,16 @@
 package Program.View;
 
+import Program.Repository.Adresse;
+import Program.Repository.Kunde;
+
 import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class KundenUi extends JDialog {
 
@@ -11,7 +20,7 @@ public class KundenUi extends JDialog {
     // UI
 
     // Textfelder
-    private JTextField geschlechtField;
+    private JComboBox geschlechtCombobox;
     private JTextField nachnameField;
     private JTextField vornameField;
     private JTextField strasseField;
@@ -19,8 +28,8 @@ public class KundenUi extends JDialog {
     private JTextField ortField;
     private JTextField telefonField;
     private JTextField emailField;
-    private JTextField spracheField;
-    private JTextField geburtsdatumField;
+    private JComboBox spracheComboBox;
+    private JFormattedTextField geburtsdatumFormattedField;
 
     // Labels
     private JLabel geschlechtLabel;
@@ -62,7 +71,41 @@ public class KundenUi extends JDialog {
         setMinimumSize(new Dimension(400, 500));
         setLayout(new BorderLayout());
 
-        geschlechtField = new JTextField();
+        String[] genders = {
+                "Mann", "Frau", "Anderes", "Agender", "Androgyn", "Androgyn", "Bigender", "Cis", "Cisgeschlechtlich",
+                "Cisgeschlechtlich", "Cisgeschlechtlich", "Cisgeschlechtlich", "Cisgeschlechtlich", "Cisgeschlechtlich",
+                "Cisgeschlechtlich", "Weiblich zu Männlich", "FTM", "Geschlechterfluid", "Geschlechtsnonkonform",
+                "Geschlechtsfragestellend", "Geschlechtsvariant", "Geschlechtsqueer", "Intersex", "Männlich zu Weiblich",
+                "MTF", "Weder", "Neutrois", "Nicht-binär", "Pangender", "Trans", "Trans", "Trans Frau", "Trans Frau",
+                "Trans Mann", "Trans Mann", "Trans Person", "Trans Person", "Trans Frau", "Trans Frau", "Transfeminin",
+                "Transgender", "Transgender Frau", "Transgender Mann", "Transgender Mann", "Transgender Person", "Transgender Frau",
+                "Transmaskulin", "Transsexuell", "Transsexuelle Frau", "Transsexueller Mann", "Transsexueller Mann",
+                "Transsexuelle Person", "Transsexuelle Frau"
+        };
+
+        String[] languages = {
+                "Englisch", "Spanisch", "Chinesisch (Mandarin)", "Hindi", "Französisch", "Bengalisch", "Russisch", "Portugiesisch",
+                "Urdu", "Indonesisch", "Deutsch", "Japanisch", "Swahili", "Marathi", "Telugu", "Türkisch", "Koreanisch", "Tamil",
+                "Gujarati", "Polnisch", "Vietnamesisch", "Ukrainisch", "Malaiisch", "Persisch", "Kantonesisch", "Paschtu", "Hausa",
+                "Thai", "Punjabi", "Swedisch", "Oriya", "Niederländisch", "Javanisch", "Bhojpuri", "Filipino", "Yoruba", "Xhosa",
+                "Nepali", "Sindhi", "Igbo", "Maithili", "Amharisch", "Uigurisch", "Fulfulde", "Oromo", "Rumänisch", "Burmese",
+                "Azerbaijani", "Cebuano"
+        };
+
+        try {
+
+            MaskFormatter dateFormatter = new MaskFormatter("####-##-##");
+
+            dateFormatter.setPlaceholderCharacter('_');
+
+            geburtsdatumFormattedField = new JFormattedTextField(dateFormatter);
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        geschlechtCombobox = new JComboBox(genders);
         nachnameField = new JTextField();
         vornameField = new JTextField();
         strasseField = new JTextField();
@@ -70,8 +113,18 @@ public class KundenUi extends JDialog {
         ortField = new JTextField();
         telefonField = new JTextField();
         emailField = new JTextField();
-        spracheField = new JTextField();
-        geburtsdatumField = new JTextField();
+        spracheComboBox = new JComboBox(languages);
+
+        // sorgt dafür, dass in einem Textfeld nurnoch int geschrieben können
+        ((AbstractDocument) plzField.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                String newText = fb.getDocument().getText(0, fb.getDocument().getLength()) + text;
+                if (newText.matches("\\d*")) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
 
         geschlechtLabel = new JLabel("Geschlecht:");
         nachnameLabel = new JLabel("Nachname:");
@@ -82,7 +135,7 @@ public class KundenUi extends JDialog {
         telefonLabel = new JLabel("Telefon:");
         emailLabel = new JLabel("E-Mail:");
         spracheLabel = new JLabel("Sprache:");
-        geburtsdatumLabel = new JLabel("Geburtsdatum:");
+        geburtsdatumLabel = new JLabel("Geburtsdatum: (yyyy-MM-dd)");
 
         speichernButton = new JButton("Speichern");
         abbrechenButton = new JButton("Abbrechen");
@@ -100,7 +153,7 @@ public class KundenUi extends JDialog {
         mainPanel.add(vornameLabel);
         mainPanel.add(vornameField);
         mainPanel.add(geschlechtLabel);
-        mainPanel.add(geschlechtField);
+        mainPanel.add(geschlechtCombobox);
         mainPanel.add(strasseLabel);
         mainPanel.add(strasseField);
         mainPanel.add(plzLabel);
@@ -112,20 +165,77 @@ public class KundenUi extends JDialog {
         mainPanel.add(emailLabel);
         mainPanel.add(emailField);
         mainPanel.add(spracheLabel);
-        mainPanel.add(spracheField);
+        mainPanel.add(spracheComboBox);
         mainPanel.add(geburtsdatumLabel);
-        mainPanel.add(geburtsdatumField);
+        mainPanel.add(geburtsdatumFormattedField);
 
 
 
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
+        addActionListener();
+
         pack();
         setLocationRelativeTo(null);
 
         setVisible(true);
 
+    }
+
+    public void addActionListener() {
+
+        speichernButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                readDataFromUi();
+            }
+        });
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        abbrechenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+    }
+
+    public void readDataFromUi() {
+
+        try {
+            int plz = Integer.parseInt(plzField.getText());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = dateFormat.parse(geburtsdatumFormattedField.getText());
+
+            Adresse adresse = new Adresse(
+                    strasseField.getText(),
+                    plz,
+                    ortField.getText()
+            );
+
+            Kunde kunde = new Kunde(
+                    (String) geschlechtCombobox.getSelectedItem(),
+                    nachnameField.getText(),
+                    vornameField.getText(),
+                    adresse,
+                    telefonField.getText(),
+                    emailField.getText(),
+                    (String) spracheComboBox.getSelectedItem(),
+                    date
+            );
+
+            mainUi.addNewKunde(kunde);
+
+        } catch (NumberFormatException | ParseException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
 }
