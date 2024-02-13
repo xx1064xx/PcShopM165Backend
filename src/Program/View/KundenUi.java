@@ -62,7 +62,6 @@ public class KundenUi extends JDialog {
         setMinimumSize(new Dimension(400, 500));
         setLayout(new BorderLayout());
 
-        // Textfelder initialisieren
         geschlechtField = new JTextField();
         nachnameField = new JTextField();
         vornameField = new JTextField();
@@ -74,7 +73,6 @@ public class KundenUi extends JDialog {
         spracheField = new JTextField();
         geburtsdatumField = new JTextField();
 
-        // Labels initialisieren
         geschlechtLabel = new JLabel("Geschlecht:");
         nachnameLabel = new JLabel("Nachname:");
         vornameLabel = new JLabel("Vorname:");
@@ -86,7 +84,6 @@ public class KundenUi extends JDialog {
         spracheLabel = new JLabel("Sprache:");
         geburtsdatumLabel = new JLabel("Geburtsdatum:");
 
-        // Buttons initialisieren
         speichernButton = new JButton("Speichern");
         abbrechenButton = new JButton("Abbrechen");
         deleteButton = new JButton("löschen");
