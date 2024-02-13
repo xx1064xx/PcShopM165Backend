@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 public class MainUi extends JFrame {
 
@@ -24,9 +23,9 @@ public class MainUi extends JFrame {
     private JButton kundenAddButton;
     private JButton computerAddButton;
     private JButton bestellungsAddButton;
-    private JButton kundenDeleteButton;
-    private JButton computerDeleteButton;
-    private JButton bestellungsDeleteButton;
+    private JButton kundenEditButton;
+    private JButton computerEditButton;
+    private JButton bestellungsEditButton;
 
     // lists
     private JList<String> kundenList;
@@ -69,7 +68,7 @@ public class MainUi extends JFrame {
         setTitle("Option Selection");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setMinimumSize(new Dimension(350, 500));
+        setMinimumSize(new Dimension(400, 500));
 
         setLayout(new BorderLayout());
 
@@ -99,18 +98,18 @@ public class MainUi extends JFrame {
         computerAddButton = new JButton("Neuer Computer");
         bestellungsAddButton = new JButton("Neue Bestellung");
 
-        kundenDeleteButton = new JButton("Kunde löschen");
-        computerDeleteButton = new JButton("Computer löschen");
-        bestellungsDeleteButton = new JButton("Bestellung löschen");
+        kundenEditButton = new JButton("Kunde bearbeiten");
+        computerEditButton = new JButton("Computer bearbeiten");
+        bestellungsEditButton = new JButton("Bestellung bearbeiten");
 
         kundenButtonPanel.add(kundenAddButton);
-        kundenButtonPanel.add(kundenDeleteButton);
+        kundenButtonPanel.add(kundenEditButton);
 
         computerButtonPanel.add(computerAddButton);
-        computerButtonPanel.add(computerDeleteButton);
+        computerButtonPanel.add(computerEditButton);
 
         bestellungsButtonPanel.add(bestellungsAddButton);
-        bestellungsButtonPanel.add(bestellungsDeleteButton);
+        bestellungsButtonPanel.add(bestellungsEditButton);
 
         kundenPanel.add(kundenListScrollPane, BorderLayout.CENTER);
         kundenPanel.add(kundenButtonPanel, BorderLayout.SOUTH);
