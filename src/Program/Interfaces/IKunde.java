@@ -13,5 +13,5 @@ public interface IKunde {
     void insert(Kunde kunde);
     void update(Kunde kunde);
     void delete(ObjectId kundenId);
-    void save();
+    void setAll(ArrayList<Kunde> kunden);
 }

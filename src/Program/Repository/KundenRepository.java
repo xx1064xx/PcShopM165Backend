@@ -62,9 +62,8 @@ public class KundenRepository implements IKunde {
     }
 
     @Override
-    public void save() {
-        // Speichern der Änderungen
-        // Implementierung je nach Bedarf (z. B. Speichern in einer Datenbank)
+    public void setAll(ArrayList<Kunde> kunden) {
+        this.kunden = kunden;
     }
 
 }

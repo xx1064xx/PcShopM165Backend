@@ -6,6 +6,8 @@ import Program.Service.ComputerService;
 import Program.Service.KundenService;
 import Program.View.MainUi;
 
+import java.util.ArrayList;
+
 public class Controller {
 
     private MainUi mainUi;
@@ -16,16 +18,19 @@ public class Controller {
     private Bestellungsservice bestellungsservice;
 
     public Controller() {
-        mainUi = new MainUi(this);
         kundenservice = new KundenService(this);
+        mainUi = new MainUi(this);
         computerService = new ComputerService(this);
         bestellungsservice = new Bestellungsservice(this);
     }
 
-    public void run() {
 
+    // kunden
+    public ArrayList<Kunde> getAllKunden() {
+        ArrayList<Kunde> kunden = kundenservice.getAllKunden();
+
+        return kunden;
     }
-
     public void addNewKunde(Kunde kunde) {
         kundenservice.addNewKunde(kunde);
     }

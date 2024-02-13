@@ -190,6 +190,7 @@ public class KundenUi extends JDialog {
             public void actionPerformed(ActionEvent e) {
 
                 readDataFromUi();
+                dispose();
             }
         });
 
@@ -236,6 +237,7 @@ public class KundenUi extends JDialog {
         } catch (NumberFormatException | ParseException e) {
             System.err.println(e.getMessage());
         }
+
     }
 
 }

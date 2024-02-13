@@ -9,8 +9,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class MainUi extends JFrame {
+
+    private ArrayList<Kunde> kunden;
 
     private Controller controller;
     private MainUi mainUi;
@@ -60,6 +63,8 @@ public class MainUi extends JFrame {
 
         this.controller = controller;
         this.mainUi = this;
+
+        this.kunden = controller.getAllKunden();
 
         init();
 
@@ -129,6 +134,8 @@ public class MainUi extends JFrame {
 
         addActionListener();
         addMouseListener();
+
+        renderAllKunden();
 
         pack();
         setLocationRelativeTo(null);
@@ -206,6 +213,19 @@ public class MainUi extends JFrame {
 
     public void addNewKunde(Kunde kunde) {
         controller.addNewKunde(kunde);
+    }
+
+    // hilfsmethoden
+
+    private void renderAllKunden() {
+
+        for (Kunde kunde : kunden){
+            String eintrag = kunde.getVorname() + " " + kunde.getNachname();
+            kundenListModel.addElement(eintrag);
+        }
+
+        kundenList.setModel(kundenListModel);
+
     }
 
 

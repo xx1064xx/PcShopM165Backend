@@ -1,11 +1,16 @@
 package Program.DbAccess;
 
+import Program.Repository.Adresse;
+import Program.Repository.Kunde;
 import Program.Service.KundenService;
 import com.mongodb.client.*;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class KundenDbAccess {
 
@@ -14,6 +19,7 @@ public class KundenDbAccess {
     private MongoDatabase mongoDatabase;
     private String database = "pcShopM165";
     private String connectionString = "mongodb://localhost:27017";
+    private String collectionName = "kunden";
 
     public KundenDbAccess(KundenService kundenService) {
 
@@ -29,37 +35,61 @@ public class KundenDbAccess {
 
     }
 
-    public ArrayList<Document> getAll(String collectionName) {
+    public ArrayList<Kunde> getAllKunden() {
 
-        ArrayList<Document> documentsList = new ArrayList<>();
+        ArrayList<Kunde> kundenList = new ArrayList<>();
         MongoCollection<Document> collection = mongoDatabase.getCollection(collectionName);
         FindIterable<Document> documents = collection.find();
 
         for (Document doc : documents) {
-            documentsList.add(doc);
+            Kunde kunde = documentToKunde(doc);
+            kundenList.add(kunde);
         }
 
-        return documentsList;
+        return kundenList;
     }
 
-    public void getById(String collectionString){
+    public void addNewKunde(Kunde kunde) {
+
+        Document kundeDocument = new Document();
+        kundeDocument.append("geschlecht", kunde.getGeschlecht());
+        kundeDocument.append("nachname", kunde.getNachname());
+        kundeDocument.append("vorname", kunde.getVorname());
+        kundeDocument.append("adresse", new Document()
+                .append("strasse", kunde.getAdresse().getStrasse())
+                .append("plz", kunde.getAdresse().getPlz())
+                .append("ort", kunde.getAdresse().getOrt()));
+        kundeDocument.append("telefon", kunde.getTelefon());
+        kundeDocument.append("email", kunde.getEmail());
+        kundeDocument.append("sprache", kunde.getSprache());
+        kundeDocument.append("geburtsdatum", kunde.getGeburtsdatum());
+
+
+        MongoCollection<Document> collection = mongoDatabase.getCollection(collectionName);
+
+        collection.insertOne(kundeDocument);
+
 
     }
 
-    public void insert(String collectionString) {
+    // hilfsmethoden
+    private Kunde documentToKunde(Document document) {
+        ObjectId kundenId = document.getObjectId("_id");
+        String geschlecht = document.getString("geschlecht");
+        String nachname = document.getString("nachname");
+        String vorname = document.getString("vorname");
+        String telefon = document.getString("telefon");
+        String email = document.getString("email");
+        String sprache = document.getString("sprache");
+        Date geburtsdatum = document.getDate("geburtsdatum");
 
-    }
+        Document adresseDoc = (Document) document.get("adresse");
+        String strasse = adresseDoc.getString("strasse");
+        int plz = adresseDoc.getInteger("plz");
+        String ort = adresseDoc.getString("ort");
+        Adresse adresse = new Adresse(strasse, plz, ort);
 
-    public void update(String collectionString) {
-
-    }
-
-    public void delete(String collectionString) {
-
-    }
-
-    public void save(String collectionString) {
-
+        return new Kunde(kundenId, geschlecht, nachname, vorname, adresse, telefon, email, sprache, geburtsdatum);
     }
 
 
