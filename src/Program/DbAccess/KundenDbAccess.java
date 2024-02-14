@@ -4,10 +4,12 @@ import Program.Repository.Adresse;
 import Program.Repository.Kunde;
 import Program.Service.KundenService;
 import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,6 +72,32 @@ public class KundenDbAccess {
         collection.insertOne(kundeDocument);
 
 
+    }
+
+    public void updateKunde(Kunde updatedKunde) {
+
+        ObjectId customerId = updatedKunde.getKundenId();
+
+        // Erstelle ein neues Document mit den aktualisierten Kundendaten
+        Document updatedCustomerDocument = new Document();
+        updatedCustomerDocument.append("geschlecht", updatedKunde.getGeschlecht());
+        updatedCustomerDocument.append("nachname", updatedKunde.getNachname());
+        updatedCustomerDocument.append("vorname", updatedKunde.getVorname());
+        updatedCustomerDocument.append("adresse", new Document()
+                .append("strasse", updatedKunde.getAdresse().getStrasse())
+                .append("plz", updatedKunde.getAdresse().getPlz())
+                .append("ort", updatedKunde.getAdresse().getOrt()));
+        updatedCustomerDocument.append("telefon", updatedKunde.getTelefon());
+        updatedCustomerDocument.append("email", updatedKunde.getEmail());
+        updatedCustomerDocument.append("sprache", updatedKunde.getSprache());
+        updatedCustomerDocument.append("geburtsdatum", updatedKunde.getGeburtsdatum());
+
+        MongoCollection<Document> collection = mongoDatabase.getCollection(collectionName);
+
+        collection.updateOne(
+                Filters.eq("_id", customerId),
+                new Document("$set", updatedCustomerDocument)
+        );
     }
 
     // hilfsmethoden

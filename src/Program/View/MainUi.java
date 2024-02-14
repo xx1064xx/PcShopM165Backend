@@ -150,7 +150,7 @@ public class MainUi extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                kundenUi = new KundenUi(mainUi, true);
+                kundenUi = new KundenUi(mainUi, true, null, -1);
 
             }
         });
@@ -183,7 +183,9 @@ public class MainUi extends JFrame {
                     System.out.println("kein Kunde ausgewählt");
                 } else {
 
+                    Kunde kunde = controller.getKundeByIndex(selectedKundenIndex);
 
+                    kundenUi = new KundenUi(mainUi, false, kunde, selectedKundenIndex);
 
                 }
             }
@@ -245,10 +247,18 @@ public class MainUi extends JFrame {
     public void addNewKunde(Kunde kunde) {
         controller.addNewKunde(kunde);
     }
+    public void updateKunde(Kunde kunde) {
+        controller.updateKunde(kunde);
+    }
+
+    public Kunde getKundeByIndex(int index) {
+        Kunde kunde = controller.getKundeByIndex(index);
+        return kunde;
+    }
 
     // hilfsmethoden
 
-    private void updateAllKunden() {
+    public void updateAllKunden() {
 
         kundenListModel.removeAllElements();
 

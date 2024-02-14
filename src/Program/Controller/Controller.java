@@ -37,8 +37,15 @@ public class Controller {
 
         return kunden;
     }
+    public Kunde getKundeByIndex(int index) {
+        Kunde kunde = kundenservice.getByIndex(index);
+        return kunde;
+    }
     public void addNewKunde(Kunde kunde) {
         kundenservice.addNewKunde(kunde);
+    }
+    public void updateKunde(Kunde kunde) {
+        kundenservice.updateKunde(kunde);
     }
 
 

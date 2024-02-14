@@ -23,31 +23,41 @@ public class KundenRepository implements IKunde {
     }
 
     @Override
-    public Kunde getByIndex(ObjectId kundenId) {
+    public Kunde getByIndex(int index) {
 
-        for (Kunde kunde : kunden) {
-            if (kunde.getKundenId() == kundenId) {
-                return kunde;
-            }
-        }
-        return null;
+        Kunde kunde = kunden.get(index);
+
+        return kunde;
     }
 
     @Override
     public void insert(Kunde kunde) {
-        // Einfügen eines neuen Kunden
+
         kunden.add(kunde);
     }
 
     @Override
-    public void update(Kunde kunde) {
-        // Aktualisierung eines vorhandenen Kunden
-        for (int i = 0; i < kunden.size(); i++) {
-            if (kunden.get(i).getKundenId() == kunde.getKundenId()) {
-                kunden.set(i, kunde);
+    public void update(Kunde updatedKunde) {
+
+        ObjectId updatedKundenId = updatedKunde.getKundenId();
+
+        for (Kunde kunde : kunden) {
+            if (kunde.getKundenId().equals(updatedKundenId)) {
+
+                kunde.setGeschlecht(updatedKunde.getGeschlecht());
+                kunde.setNachname(updatedKunde.getNachname());
+                kunde.setVorname(updatedKunde.getVorname());
+                kunde.setAdresse(updatedKunde.getAdresse());
+                kunde.setTelefon(updatedKunde.getTelefon());
+                kunde.setEmail(updatedKunde.getEmail());
+                kunde.setSprache(updatedKunde.getSprache());
+                kunde.setGeburtsdatum(updatedKunde.getGeburtsdatum());
+
                 break;
             }
         }
+
+
     }
 
     @Override

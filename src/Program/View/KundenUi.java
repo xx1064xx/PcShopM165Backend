@@ -16,6 +16,7 @@ public class KundenUi extends JDialog {
 
     private MainUi mainUi;
     private boolean isEmpty;
+    private int kundenIndex;
 
     // UI
 
@@ -53,18 +54,19 @@ public class KundenUi extends JDialog {
     private JPanel buttonPanel;
     private JPanel mainPanel;
 
-    public KundenUi (MainUi mainUi, boolean isEmpty) {
+    public KundenUi (MainUi mainUi, boolean isEmpty, Kunde kunde, int kundenIndex) {
 
         super(mainUi, "kundenView", true);
 
         this.mainUi = mainUi;
         this.isEmpty = isEmpty;
+        this.kundenIndex = kundenIndex;
 
-        init();
+        init(kunde);
 
     }
 
-    public void init() {
+    public void init(Kunde kunde) {
 
         setTitle("Option Selection");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -174,6 +176,12 @@ public class KundenUi extends JDialog {
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
+        if (isEmpty) {
+            System.out.println("neuer Kunde");
+        } else {
+            renderKundenData(kunde);
+        }
+
         addActionListener();
 
         pack();
@@ -189,8 +197,18 @@ public class KundenUi extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                readDataFromUi();
                 dispose();
+
+                if(isEmpty) {
+                    Kunde kunde = readNewDateFromUi();
+                    mainUi.addNewKunde(kunde);
+                } else {
+                    Kunde kunde = readDataFromUi();
+                    mainUi.updateKunde(kunde);
+                }
+
+                mainUi.updateAllKunden();
+                System.out.println("mongo");
             }
         });
 
@@ -208,8 +226,42 @@ public class KundenUi extends JDialog {
         });
     }
 
-    public void readDataFromUi() {
+    public Kunde readDataFromUi() {
 
+        Kunde kunde = mainUi.getKundeByIndex(kundenIndex);
+
+        System.out.println(kunde.getNachname());
+
+        try {
+            int plz = Integer.parseInt(plzField.getText());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = dateFormat.parse(geburtsdatumFormattedField.getText());
+
+            kunde.setGeschlecht((String) geschlechtCombobox.getSelectedItem());
+            kunde.setNachname(nachnameField.getText());
+            kunde.setVorname(vornameField.getText());
+
+            Adresse adresse = kunde.getAdresse();
+
+            adresse.setStrasse(strasseField.getText());
+            adresse.setPlz(plz);
+            adresse.setOrt(ortField.getText());
+
+            kunde.setTelefon(telefonField.getText());
+            kunde.setEmail(emailField.getText());
+            kunde.setSprache((String) spracheComboBox.getSelectedItem());
+            kunde.setGeburtsdatum(date);
+
+            return kunde;
+
+        } catch (NumberFormatException | ParseException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+
+    }
+
+    public Kunde readNewDateFromUi() {
         try {
             int plz = Integer.parseInt(plzField.getText());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -232,11 +284,32 @@ public class KundenUi extends JDialog {
                     date
             );
 
-            mainUi.addNewKunde(kunde);
+            return kunde;
 
         } catch (NumberFormatException | ParseException e) {
             System.err.println(e.getMessage());
+            return null;
         }
+    }
+
+    private void renderKundenData(Kunde kunde) {
+
+        Adresse adresse = kunde.getAdresse();
+
+        strasseField.setText(adresse.getStrasse());
+        plzField.setText(Integer.toString(adresse.getPlz()));
+        ortField.setText(adresse.getOrt());
+
+        geschlechtCombobox.setSelectedItem(kunde.getGeschlecht());
+        nachnameField.setText(kunde.getNachname());
+        vornameField.setText(kunde.getVorname());
+        telefonField.setText(kunde.getTelefon());
+        emailField.setText(kunde.getEmail());
+        spracheComboBox.setSelectedItem(kunde.getSprache());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(kunde.getGeburtsdatum());
+        geburtsdatumFormattedField.setValue(formattedDate);
 
     }
 

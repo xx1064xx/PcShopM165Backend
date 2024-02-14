@@ -35,6 +35,11 @@ public class KundenService {
 
         return kunden;
     }
+
+    public Kunde getByIndex(int index) {
+        Kunde kunde = kundenRepository.getByIndex(index);
+        return kunde;
+    }
     public void addNewKunde(Kunde kunde) {
 
         kundenDbAccess.addNewKunde(kunde);
@@ -42,6 +47,14 @@ public class KundenService {
         // es müssen alle Kunden neu ausgelesen werden, damit auch der neue Kunde seine ObjectId erhält
         ArrayList<Kunde> kundenList = kundenDbAccess.getAllKunden();
         kundenRepository.setAll(kundenList);
+
+    }
+
+    public void updateKunde(Kunde kunde) {
+
+        kundenDbAccess.updateKunde(kunde);
+
+        kundenRepository.update(kunde);
 
     }
 

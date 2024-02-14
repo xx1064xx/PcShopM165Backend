@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public interface IKunde {
 
     ArrayList<Kunde> getAll();
-    Kunde getByIndex(ObjectId kundenId);
+    Kunde getByIndex(int index);
     void insert(Kunde kunde);
     void update(Kunde kunde);
     void delete(ObjectId kundenId);
