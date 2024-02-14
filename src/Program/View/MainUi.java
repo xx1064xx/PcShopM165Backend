@@ -13,8 +13,7 @@ import java.util.ArrayList;
 
 public class MainUi extends JFrame {
 
-    private ArrayList<Kunde> kunden;
-
+    private int selectedKundenIndex;
     private Controller controller;
     private MainUi mainUi;
     private KundenUi kundenUi;
@@ -64,7 +63,7 @@ public class MainUi extends JFrame {
         this.controller = controller;
         this.mainUi = this;
 
-        this.kunden = controller.getAllKunden();
+        controller.readAllKunden();
 
         init();
 
@@ -135,7 +134,7 @@ public class MainUi extends JFrame {
         addActionListener();
         addMouseListener();
 
-        renderAllKunden();
+        updateAllKunden();
 
         pack();
         setLocationRelativeTo(null);
@@ -170,6 +169,38 @@ public class MainUi extends JFrame {
             public void actionPerformed(ActionEvent e) {
 
                 bestellungsUi = new BestellungsUi(mainUi, true);
+
+            }
+        });
+
+        kundenEditButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                selectedKundenIndex = kundenList.getSelectedIndex();
+
+                if (selectedKundenIndex < 0) {
+                    System.out.println("kein Kunde ausgewählt");
+                } else {
+
+
+
+                }
+            }
+        });
+
+        computerEditButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+            }
+        });
+
+        bestellungsEditButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
 
             }
         });
@@ -217,9 +248,11 @@ public class MainUi extends JFrame {
 
     // hilfsmethoden
 
-    private void renderAllKunden() {
+    private void updateAllKunden() {
 
-        for (Kunde kunde : kunden){
+        kundenListModel.removeAllElements();
+
+        for (Kunde kunde : controller.getAllKunden()){
             String eintrag = kunde.getVorname() + " " + kunde.getNachname();
             kundenListModel.addElement(eintrag);
         }

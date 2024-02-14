@@ -18,19 +18,19 @@ public class KundenRepository implements IKunde {
 
     @Override
     public ArrayList<Kunde> getAll() {
-        // Rückgabe aller Kunden
+
         return kunden;
     }
 
     @Override
-    public Kunde getById(ObjectId kundenId) {
-        // Rückgabe des Kunden mit der angegebenen ID
+    public Kunde getByIndex(ObjectId kundenId) {
+
         for (Kunde kunde : kunden) {
             if (kunde.getKundenId() == kundenId) {
                 return kunde;
             }
         }
-        return null; // Wenn kein Kunde mit der angegebenen ID gefunden wurde
+        return null;
     }
 
     @Override

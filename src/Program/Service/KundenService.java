@@ -20,12 +20,17 @@ public class KundenService {
         kundenRepository = new KundenRepository(this);
     }
 
-    public ArrayList<Kunde> getAllKunden() {
+    // functions
+
+    public void readAllKunden() {
 
         ArrayList<Kunde> kundenList = kundenDbAccess.getAllKunden();
 
         kundenRepository.setAll(kundenList);
 
+    }
+
+    public ArrayList<Kunde> getAllKunden() {
         ArrayList<Kunde> kunden = kundenRepository.getAll();
 
         return kunden;

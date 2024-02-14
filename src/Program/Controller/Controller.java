@@ -26,7 +26,13 @@ public class Controller {
 
 
     // kunden
+    public void readAllKunden() {
+        kundenservice.readAllKunden();
+
+    }
+
     public ArrayList<Kunde> getAllKunden() {
+
         ArrayList<Kunde> kunden = kundenservice.getAllKunden();
 
         return kunden;
