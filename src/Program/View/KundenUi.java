@@ -216,6 +216,13 @@ public class KundenUi extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                Kunde kunde = mainUi.getKundeByIndex(kundenIndex);
+
+                dispose();
+
+                mainUi.deleteKunde(kunde.getKundenId());
+                mainUi.updateAllKunden();
+
             }
         });
         abbrechenButton.addActionListener(new ActionListener() {

@@ -5,6 +5,7 @@ import Program.Service.Bestellungsservice;
 import Program.Service.ComputerService;
 import Program.Service.KundenService;
 import Program.View.MainUi;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,9 @@ public class Controller {
     }
     public void updateKunde(Kunde kunde) {
         kundenservice.updateKunde(kunde);
+    }
+    public void deleteKunde(ObjectId kundenId) {
+        kundenservice.deleteKunde(kundenId);
     }
 
 

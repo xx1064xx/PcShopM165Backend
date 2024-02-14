@@ -62,7 +62,7 @@ public class KundenRepository implements IKunde {
 
     @Override
     public void delete(ObjectId kundenId) {
-        // Löschen eines Kunden anhand der ID
+
         for (int i = 0; i < kunden.size(); i++) {
             if (kunden.get(i).getKundenId() == kundenId) {
                 kunden.remove(i);

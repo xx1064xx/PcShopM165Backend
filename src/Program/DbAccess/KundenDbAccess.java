@@ -100,6 +100,13 @@ public class KundenDbAccess {
         );
     }
 
+    public void deleteKunde(ObjectId objectId) {
+
+        MongoCollection<Document> collection = mongoDatabase.getCollection(collectionName);
+
+        collection.deleteOne(Filters.eq("_id", objectId));
+    }
+
     // hilfsmethoden
     private Kunde documentToKunde(Document document) {
         ObjectId kundenId = document.getObjectId("_id");

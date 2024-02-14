@@ -4,7 +4,9 @@ import Program.Controller.Controller;
 import Program.DbAccess.KundenDbAccess;
 import Program.Repository.Kunde;
 import Program.Repository.KundenRepository;
+import org.bson.types.ObjectId;
 
+import javax.print.attribute.standard.JobKOctets;
 import java.util.ArrayList;
 
 public class KundenService {
@@ -55,6 +57,13 @@ public class KundenService {
         kundenDbAccess.updateKunde(kunde);
 
         kundenRepository.update(kunde);
+
+    }
+
+    public void deleteKunde(ObjectId kundenId) {
+
+        kundenDbAccess.deleteKunde(kundenId);
+        kundenRepository.delete(kundenId);
 
     }
 

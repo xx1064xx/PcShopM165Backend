@@ -2,6 +2,7 @@ package Program.View;
 
 import Program.Controller.Controller;
 import Program.Repository.Kunde;
+import org.bson.types.ObjectId;
 
 import javax.swing.*;
 import java.awt.*;
@@ -132,7 +133,6 @@ public class MainUi extends JFrame {
         add(tabbedPane, BorderLayout.CENTER);
 
         addActionListener();
-        addMouseListener();
 
         updateAllKunden();
 
@@ -209,46 +209,14 @@ public class MainUi extends JFrame {
 
     }
 
-    public void addMouseListener() {
-        kundenList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-
-                    System.out.println("doppelklick");
-
-                }
-            }
-        });
-
-        computerList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-
-                    System.out.println("doppelklick");
-
-                }
-            }
-        });
-
-        bestellungsList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-
-                    System.out.println("doppelklick");
-
-                }
-            }
-        });
-    }
-
     public void addNewKunde(Kunde kunde) {
         controller.addNewKunde(kunde);
     }
     public void updateKunde(Kunde kunde) {
         controller.updateKunde(kunde);
+    }
+    public void deleteKunde(ObjectId kundenId) {
+        controller.deleteKunde(kundenId);
     }
 
     public Kunde getKundeByIndex(int index) {
