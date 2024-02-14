@@ -1,12 +1,13 @@
 package Program.Repository;
 
 import Program.Controller.Controller;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 
 public class Computer{
 
-    private int computerId;
+    private ObjectId computerId;
     private String hersteller;
     private String modell;
     private int arbeitsspeicher;
@@ -16,12 +17,35 @@ public class Computer{
     private double einzelpreis;
     private ArrayList<Schnittstelle> schnittstellen;
 
+    public Computer(String hersteller, String modell, int arbeitsspeicher, String cpu, int massenspeicher, String typ, double einzelpreis, ArrayList<Schnittstelle> schnittstellen) {
+        this.hersteller = hersteller;
+        this.modell = modell;
+        this.arbeitsspeicher = arbeitsspeicher;
+        this.cpu = cpu;
+        this.massenspeicher = massenspeicher;
+        this.typ = typ;
+        this.einzelpreis = einzelpreis;
+        this.schnittstellen = schnittstellen;
+    }
+
+    public Computer(ObjectId computerId, String hersteller, String modell, int arbeitsspeicher, String cpu, int massenspeicher, String typ, double einzelpreis, ArrayList<Schnittstelle> schnittstellen) {
+        this.computerId = computerId;
+        this.hersteller = hersteller;
+        this.modell = modell;
+        this.arbeitsspeicher = arbeitsspeicher;
+        this.cpu = cpu;
+        this.massenspeicher = massenspeicher;
+        this.typ = typ;
+        this.einzelpreis = einzelpreis;
+        this.schnittstellen = schnittstellen;
+    }
+
     public Computer() {
 
     }
 
 
-    public int getComputerId() {
+    public ObjectId getComputerId() {
         return computerId;
     }
 
@@ -89,7 +113,7 @@ public class Computer{
         this.schnittstellen = schnittstellen;
     }
 
-    public void setComputerId(int computerId) {
+    public void setComputerId(ObjectId computerId) {
         this.computerId = computerId;
     }
 }

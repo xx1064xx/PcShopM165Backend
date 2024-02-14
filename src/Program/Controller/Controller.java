@@ -48,5 +48,11 @@ public class Controller {
         kundenservice.updateKunde(kunde);
     }
 
+    // computer
+
+    public void readAllComputer() {
+        computerService.readAllComputer();
+    }
+
 
 }

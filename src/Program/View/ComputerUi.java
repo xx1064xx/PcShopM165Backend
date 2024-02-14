@@ -1,6 +1,12 @@
 package Program.View;
 
+import Program.Repository.Computer;
+
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +16,7 @@ public class ComputerUi extends JDialog {
     private MainUi mainUi;
     private ComputerUi computerUi;
     private SchnittstellenSelektor schnittstellenSelektor;
+    private int selectedIndex;
     private boolean isEmpty;
 
     // UI
@@ -54,19 +61,21 @@ public class ComputerUi extends JDialog {
     // tabbedpanes
     private JTabbedPane tabbedPane;
 
-    public ComputerUi (MainUi mainUi, boolean isEmpty) {
+    public ComputerUi (MainUi mainUi, boolean isEmpty, Computer computer, int selectedIndex) {
 
         super(mainUi, "kundenView", true);
 
         this.mainUi = mainUi;
         this.computerUi = this;
         this.isEmpty = isEmpty;
+        this.selectedIndex = selectedIndex;
 
-        init();
+
+        init(computer);
 
     }
 
-    public void init() {
+    public void init(Computer computer) {
 
         setTitle("Option Selection");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -88,6 +97,53 @@ public class ComputerUi extends JDialog {
         massenspeicherLabel = new JLabel("Massenspeicher:");
         typLabel = new JLabel("Typ:");
         einzelpreisLabel = new JLabel("Einzelpreis");
+
+        // sorgt dafür, dass in einem Textfeld nurnoch int geschrieben können
+        ((AbstractDocument) massenspeicherField.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                String newText = fb.getDocument().getText(0, fb.getDocument().getLength()) + text;
+                if (newText.matches("\\d*")) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+
+        ((AbstractDocument) arbeitsspeicherField.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                String newText = fb.getDocument().getText(0, fb.getDocument().getLength()) + text;
+                if (newText.matches("\\d*")) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+
+        // erlaubt nur double
+        ((AbstractDocument) einzelpreisField.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                String newText = fb.getDocument().getText(0, fb.getDocument().getLength());
+                newText = newText.substring(0, offset) + text + newText.substring(offset + length);
+
+                if (isValidDouble(newText)) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+
+            private boolean isValidDouble(String text) {
+                if (text.isEmpty()) {
+                    return true;
+                }
+
+                try {
+                    Double.parseDouble(text);
+                    return true;
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+            }
+        });
 
         schnittstellenListModel = new DefaultListModel<>();
 
@@ -159,6 +215,32 @@ public class ComputerUi extends JDialog {
             public void actionPerformed(ActionEvent e) {
 
                 schnittstellenSelektor = new SchnittstellenSelektor(computerUi);
+
+            }
+        });
+
+        schnittstelleDeleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        speichernButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        abbrechenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
             }
         });

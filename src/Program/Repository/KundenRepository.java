@@ -8,12 +8,11 @@ import java.util.ArrayList;
 
 public class KundenRepository implements IKunde {
 
-    private KundenService kundenService;
     private ArrayList<Kunde> kunden;
 
-    public KundenRepository(KundenService kundenService) {
+    public KundenRepository() {
         this.kunden = new ArrayList<>();
-        this.kundenService = kundenService;
+
     }
 
     @Override

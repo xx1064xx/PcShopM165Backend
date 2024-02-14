@@ -1,6 +1,7 @@
 package Program.View;
 
 import Program.Controller.Controller;
+import Program.Repository.Computer;
 import Program.Repository.Kunde;
 
 import javax.swing.*;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 public class MainUi extends JFrame {
 
     private int selectedKundenIndex;
+    private int selectedComputerIndex;
+    private int selectedBestellungsIndex;
     private Controller controller;
     private MainUi mainUi;
     private KundenUi kundenUi;
@@ -64,6 +67,7 @@ public class MainUi extends JFrame {
         this.mainUi = this;
 
         controller.readAllKunden();
+        controller.readAllComputer();
 
         init();
 
@@ -159,7 +163,7 @@ public class MainUi extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                computerUi = new ComputerUi(mainUi, true);
+                computerUi = new ComputerUi(mainUi, true, null, -1);
 
             }
         });
@@ -195,6 +199,17 @@ public class MainUi extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                selectedComputerIndex = computerList.getSelectedIndex();
+
+                if (selectedKundenIndex < 0) {
+                    System.out.println("kein Computer ausgewählt");
+                } else {
+
+                    // Computer computer = controller.getComputerByIndex(selectedComputerIndex);
+
+                    // computerUi = new ComputerUi(mainUi, false, computer, selectedComputerIndex);
+
+                }
 
             }
         });
