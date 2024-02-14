@@ -1,18 +1,20 @@
 package Program.Repository;
 
+import org.bson.types.ObjectId;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Bestellung {
 
 
-    private int bestellungsId;
+    private ObjectId bestellungsId;
     private Date bestelldatum;
     private Kunde kunde;
     private ArrayList<Bestellposition> bestellpositionen;
     private double total;
 
-    public Bestellung(int bestellungsId, Date bestelldatum, Kunde kunde, ArrayList<Bestellposition> bestellpositionen, double total) {
+    public Bestellung(ObjectId bestellungsId, Date bestelldatum, Kunde kunde, ArrayList<Bestellposition> bestellpositionen, double total) {
         this.bestellungsId = bestellungsId;
         this.bestelldatum = bestelldatum;
         this.kunde = kunde;
@@ -24,7 +26,7 @@ public class Bestellung {
 
     }
 
-    public int getBestellungsId() {
+    public ObjectId getBestellungsId() {
         return bestellungsId;
     }
 
@@ -61,7 +63,7 @@ public class Bestellung {
         this.total = total;
     }
 
-    public void setBestellungsId(int bestellungsId) {
+    public void setBestellungsId(ObjectId bestellungsId) {
         this.bestellungsId = bestellungsId;
     }
 }

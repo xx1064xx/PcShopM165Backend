@@ -1,6 +1,7 @@
 package Program.Repository;
 
 import Program.Interfaces.IBestellung;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class BestellungsRepository implements IBestellung {
 
 
     @Override
-    public Bestellung getById(int bestellungsId) {
+    public Bestellung getById(ObjectId bestellungsId) {
         // Rückgabe der Bestellung mit der angegebenen ID
         for (Bestellung bestellung : bestellungen) {
             if (bestellung.getBestellungsId() == bestellungsId) {
@@ -52,7 +53,7 @@ public class BestellungsRepository implements IBestellung {
 
 
     @Override
-    public void delete(int bestellungsId) {
+    public void delete(ObjectId bestellungsId) {
         // Löschen einer Bestellung anhand der ID
         for (int i = 0; i < bestellungen.size(); i++) {
             if (bestellungen.get(i).getBestellungsId() == bestellungsId) {

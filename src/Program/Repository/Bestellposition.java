@@ -6,6 +6,13 @@ public class Bestellposition {
     private double preis;
     private int stueckzahl;
 
+
+    public Bestellposition(Computer computer, double preis, int stueckzahl) {
+        this.computer = computer;
+        this.preis = preis;
+        this.stueckzahl = stueckzahl;
+    }
+
     public Bestellposition() {
 
     }

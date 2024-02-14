@@ -1,12 +1,15 @@
 package Program.View;
 
+import Program.Repository.Bestellposition;
 import Program.Repository.Computer;
 import Program.Repository.Kunde;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class BestellungsUi extends JDialog {
@@ -16,12 +19,14 @@ public class BestellungsUi extends JDialog {
     private BestellpositionUi bestellpositionUi;
     private boolean isEmpty;
 
+    private int[] computerBestellPosition;
+
     // UI
 
     // Eingabefelder
-    private JTextField dateField;
+    private JFormattedTextField dateField;
     private JComboBox<String> kundenComboBox;
-    private JTextField totalField;
+    private JLabel totalInfoLabel;
 
     // Labels
     private JLabel dateLabel;
@@ -56,6 +61,7 @@ public class BestellungsUi extends JDialog {
         this.mainUi = mainUi;
         this.bestellungsUi = this;
         this.isEmpty = isEmpty;
+        this.computerBestellPosition = new int[0];
 
         init();
 
@@ -68,11 +74,23 @@ public class BestellungsUi extends JDialog {
         setMinimumSize(new Dimension(400, 250));
         setLayout(new BorderLayout());
 
-        dateField = new JTextField();
-        kundenComboBox = new JComboBox<>(getAllKundenAsArray());
-        totalField = new JTextField();
+        try {
 
-        dateLabel = new JLabel("Bestelldatum:");
+            MaskFormatter dateFormatter = new MaskFormatter("####-##-##");
+
+            dateFormatter.setPlaceholderCharacter('_');
+
+            dateField = new JFormattedTextField(dateFormatter);
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        kundenComboBox = new JComboBox<>(getAllKundenAsArray());
+        totalInfoLabel = new JLabel("looool");
+
+        dateLabel = new JLabel("Bestelldatum: (yyyy-MM-dd)");
         kundenLabel = new JLabel("Kunde:");
         totalLabel = new JLabel("Total:");
 
@@ -122,7 +140,7 @@ public class BestellungsUi extends JDialog {
         computerPanel.add(kundenLabel);
         computerPanel.add(kundenComboBox);
         computerPanel.add(totalLabel);
-        computerPanel.add(totalField);
+        computerPanel.add(totalInfoLabel);
 
 
         addActionListener();
@@ -164,6 +182,36 @@ public class BestellungsUi extends JDialog {
         }
 
         return kundenArray;
+
+    }
+
+    public double getPrice(int selectedIndex) {
+
+        ArrayList<Computer> computers = mainUi.getAllComputer();
+
+        Computer selectedComputer = computers.get(selectedIndex);
+
+        double price = selectedComputer.getEinzelpreis();
+        return price;
+
+    }
+
+    public Computer getComputerByIndex(int index) {
+
+        Computer computer = mainUi.getComputerByIndex(index);
+
+        return computer;
+
+    }
+
+    public void addToBestellpositionenList(Bestellposition bestellposition, int selectedIndex) {
+
+        Computer computer = bestellposition.getComputer();
+        String computerName = (computer.getHersteller() + " " + computer.getModell() + " | Stückzahl: " + bestellposition.getStueckzahl());
+
+        bestellpositionenListModel.addElement(computerName);
+
+        bestellpositionenList.setModel(bestellpositionenListModel);
 
     }
 

@@ -1,10 +1,12 @@
 package Program.View;
 
+import Program.Repository.Bestellposition;
 import Program.Repository.Computer;
-import Program.Repository.Kunde;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class BestellpositionUi extends JDialog {
@@ -55,7 +57,7 @@ public class BestellpositionUi extends JDialog {
         computerCombobox = new JComboBox(getAllComputer());
         computerLabel = new JLabel("Computer:");
         preisLabel = new JLabel("Preis:");
-        preisInfoLabel = new JLabel("");
+        preisInfoLabel = new JLabel(String.valueOf(updatePrice()));
         stueckzahlLabel = new JLabel("Stückzahl:");
         stueckzahlSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
 
@@ -80,10 +82,44 @@ public class BestellpositionUi extends JDialog {
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
 
+        addActionListener();
+
         pack();
         setLocationRelativeTo(null);
 
         setVisible(true);
+
+    }
+
+    private void addActionListener() {
+        computerCombobox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                preisInfoLabel.setText(String.valueOf(updatePrice()));
+
+            }
+        });
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                dispose();
+
+                int selectedIndex = computerCombobox.getSelectedIndex();
+                Computer computer = bestellungsUi.getComputerByIndex(selectedIndex);
+
+                Bestellposition bestellposition = new Bestellposition(
+                    computer,
+                        computer.getEinzelpreis(),
+                        (int) stueckzahlSpinner.getValue()
+                );
+
+                bestellungsUi.addToBestellpositionenList(bestellposition, selectedIndex);
+
+            }
+        });
 
     }
 
@@ -102,4 +138,15 @@ public class BestellpositionUi extends JDialog {
         return computerArray;
 
     }
+
+    private double updatePrice() {
+
+        int selectedIndex = computerCombobox.getSelectedIndex();
+
+        double price = bestellungsUi.getPrice(selectedIndex);
+
+
+        return price;
+    }
+
 }
