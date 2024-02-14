@@ -29,7 +29,7 @@ public class ComputerRepository implements IComputer {
 
     @Override
     public void insert(Computer computer) {
-        // Einfügen eines neuen Computers
+
         computers.add(computer);
     }
 
@@ -40,6 +40,13 @@ public class ComputerRepository implements IComputer {
 
     @Override
     public void delete(ObjectId computerId) {
+
+        for (int i = 0; i < computers.size(); i++) {
+            if (computers.get(i).getComputerId() == computerId) {
+                computers.remove(i);
+                break;
+            }
+        }
 
     }
 

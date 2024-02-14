@@ -1,9 +1,11 @@
 package Program.DbAccess;
 
 import Program.Repository.Computer;
+import Program.Repository.Kunde;
 import Program.Repository.Schnittstelle;
 import Program.Service.Computerservice;
 import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -47,6 +49,31 @@ public class ComputerDbAccess {
         return computerList;
     }
 
+    public void addNewComputer(Computer computer) {
+
+        Document computerDocument = new Document();
+        computerDocument.append("hersteller", computer.getHersteller());
+        computerDocument.append("modell", computer.getModell());
+        computerDocument.append("arbeitsspeicher", computer.getArbeitsspeicher());
+        computerDocument.append("cpu", computer.getCpu());
+        computerDocument.append("massenspeicher", computer.getMassenspeicher());
+        computerDocument.append("typ", computer.getTyp());
+        computerDocument.append("einzelpreis", computer.getEinzelpreis());
+
+        List<Document> schnittstellenList = new ArrayList<>();
+        for (Schnittstelle schnittstelle : computer.getSchnittstellen()) {
+            Document schnittstelleDoc = new Document("name", schnittstelle.getSchnittstelle());
+            schnittstellenList.add(schnittstelleDoc);
+        }
+        computerDocument.append("schnittstellen", schnittstellenList);
+
+        MongoCollection<Document> collection = mongoDatabase.getCollection(collectionName);
+
+        collection.insertOne(computerDocument);
+
+
+    }
+
     // hilfsmethoden
     private Computer documentToComputer(Document document) {
 
@@ -71,5 +98,14 @@ public class ComputerDbAccess {
 
         return new Computer(computerId, hersteller, modell, arbeitsspeicher, cpu, massenspeicher, typ, einzelpreis, schnittstellen);
     }
+
+    public void deleteComputer(ObjectId objectId) {
+
+        MongoCollection<Document> collection = mongoDatabase.getCollection(collectionName);
+
+        collection.deleteOne(Filters.eq("_id", objectId));
+    }
+
+
 
 }

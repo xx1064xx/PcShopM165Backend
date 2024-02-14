@@ -225,6 +225,8 @@ public class MainUi extends JFrame {
 
     }
 
+    // kunden
+
     public void addNewKunde(Kunde kunde) {
         controller.addNewKunde(kunde);
     }
@@ -240,8 +242,6 @@ public class MainUi extends JFrame {
         return kunde;
     }
 
-    // hilfsmethoden
-
     public void updateAllKunden() {
 
         kundenListModel.removeAllElements();
@@ -255,6 +255,9 @@ public class MainUi extends JFrame {
 
     }
 
+
+
+    // computer
     public void updateAllComputer() {
 
         computerListModel.removeAllElements();
@@ -266,6 +269,18 @@ public class MainUi extends JFrame {
 
         computerList.setModel(computerListModel);
 
+    }
+
+    public Computer getComputerByIndex(int index) {
+        Computer computer = controller.getComputerByIndex(index);
+        return computer;
+    }
+
+    public void addNewComputer(Computer computer) {
+        controller.addNewComputer(computer);
+    }
+    public void deleteComputer(ObjectId computerId) {
+        controller.deleteComputer(computerId);
     }
 
 

@@ -99,7 +99,9 @@ public class BestellungsUi extends JDialog {
         bestellpositionDeleteButton = new JButton("Position löschen");
 
         buttonPanel.add(speichernButton);
-        buttonPanel.add(deleteButton);
+        if (!isEmpty){
+            buttonPanel.add(deleteButton);
+        }
         buttonPanel.add(abbrechenButton);
 
         bestellpositionenButtonPanel.add(bestellpositionAddButton);

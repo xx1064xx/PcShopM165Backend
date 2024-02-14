@@ -147,7 +147,11 @@ public class KundenUi extends JDialog {
         mainPanel = new JPanel(new GridLayout(20, 1));
 
         buttonPanel.add(speichernButton);
-        buttonPanel.add(deleteButton);
+
+        if (!isEmpty){
+            buttonPanel.add(deleteButton);
+        }
+
         buttonPanel.add(abbrechenButton);
 
         mainPanel.add(nachnameLabel);
@@ -197,18 +201,24 @@ public class KundenUi extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                dispose();
+                if (allFieldsFilled()) {
+                    dispose();
 
-                if(isEmpty) {
-                    Kunde kunde = readNewDateFromUi();
-                    mainUi.addNewKunde(kunde);
+                    if(isEmpty) {
+                        Kunde kunde = readNewDataFromUi();
+                        mainUi.addNewKunde(kunde);
+                    } else {
+                        Kunde kunde = readDataFromUi();
+                        mainUi.updateKunde(kunde);
+                    }
+
+                    mainUi.updateAllKunden();
                 } else {
-                    Kunde kunde = readDataFromUi();
-                    mainUi.updateKunde(kunde);
+                    System.out.println("ein oder mehrere Felder sind leer");
                 }
 
-                mainUi.updateAllKunden();
-                System.out.println("mongo");
+
+
             }
         });
 
@@ -268,7 +278,7 @@ public class KundenUi extends JDialog {
 
     }
 
-    public Kunde readNewDateFromUi() {
+    public Kunde readNewDataFromUi() {
         try {
             int plz = Integer.parseInt(plzField.getText());
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -318,6 +328,27 @@ public class KundenUi extends JDialog {
         String formattedDate = dateFormat.format(kunde.getGeburtsdatum());
         geburtsdatumFormattedField.setValue(formattedDate);
 
+    }
+
+    private boolean allFieldsFilled() {
+        if (
+
+                geschlechtCombobox.getSelectedItem() != null &&
+                        !nachnameField.getText().isEmpty() &&
+                        !vornameField.getText().isEmpty() &&
+                        !strasseField.getText().isEmpty() &&
+                        !plzField.getText().isEmpty() &&
+                        !ortField.getText().isEmpty() &&
+                        !telefonField.getText().isEmpty() &&
+                        !emailField.getText().isEmpty() &&
+                        spracheComboBox.getSelectedItem() != null &&
+                        !geburtsdatumFormattedField.getText().isEmpty()
+
+        ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

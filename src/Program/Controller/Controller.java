@@ -70,4 +70,11 @@ public class Controller {
         return computer;
     }
 
+    public void addNewComputer(Computer computer) {
+        computerservice.addNewComputer(computer);
+    }
+    public void deleteComputer(ObjectId computerId) {
+        computerservice.deleteComputer(computerId);
+    }
+
 }

@@ -2,6 +2,7 @@ package Program.View;
 
 import Program.Repository.Adresse;
 import Program.Repository.Computer;
+import Program.Repository.Kunde;
 import Program.Repository.Schnittstelle;
 
 import javax.swing.*;
@@ -12,14 +13,17 @@ import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class ComputerUi extends JDialog {
 
     private MainUi mainUi;
     private ComputerUi computerUi;
     private SchnittstellenSelektor schnittstellenSelektor;
-    private int selectedIndex;
+    private int computerIndex;
     private boolean isEmpty;
 
     // UI
@@ -64,14 +68,14 @@ public class ComputerUi extends JDialog {
     // tabbedpanes
     private JTabbedPane tabbedPane;
 
-    public ComputerUi (MainUi mainUi, boolean isEmpty, Computer computer, int selectedIndex) {
+    public ComputerUi (MainUi mainUi, boolean isEmpty, Computer computer, int computerIndex) {
 
         super(mainUi, "kundenView", true);
 
         this.mainUi = mainUi;
         this.computerUi = this;
         this.isEmpty = isEmpty;
-        this.selectedIndex = selectedIndex;
+        this.computerIndex = computerIndex;
 
 
         init(computer);
@@ -175,7 +179,9 @@ public class ComputerUi extends JDialog {
         schnittstelleDeleteButton = new JButton("Schnittstelle entfernen");
 
         buttonPanel.add(speichernButton);
-        buttonPanel.add(deleteButton);
+        if (!isEmpty){
+            buttonPanel.add(deleteButton);
+        }
         buttonPanel.add(abbrechenButton);
 
         schnittstellenButtonPanel.add(schnittstelleAddButton);
@@ -240,13 +246,36 @@ public class ComputerUi extends JDialog {
         speichernButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+
+                if (allFieldsFilled()) {
+                    dispose();
+
+                    if(isEmpty) {
+                        Computer computer = readNewDataFromUi();
+                        mainUi.addNewComputer(computer);
+                    } else {
+                    /*
+                    Kunde kunde = readDataFromUi();
+                    mainUi.updateComputer(computer);
+
+                     */
+                    }
+
+                    mainUi.updateAllComputer();
+                } else {
+                    System.out.println("Ein oder mehrere Felder sind leer");
+                }
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Computer computer = mainUi.getComputerByIndex(computerIndex);
+
                 dispose();
+
+                mainUi.deleteComputer(computer.getComputerId());
+                mainUi.updateAllComputer();
             }
         });
         abbrechenButton.addActionListener(new ActionListener() {
@@ -255,6 +284,105 @@ public class ComputerUi extends JDialog {
                 dispose();
             }
         });
+    }
+
+    public Computer readDataFromUi() {
+
+        Computer computer = mainUi.getComputerByIndex(computerIndex);
+
+        System.out.println(computer.getHersteller());
+
+        try {
+
+            ArrayList<Schnittstelle> schnittstellen = new ArrayList<>();
+
+            for (int i = 0; i < schnittstellenListModel.getSize(); i++) {
+                String element = schnittstellenListModel.getElementAt(i);
+
+                Schnittstelle schnittstelle = new Schnittstelle(element);
+
+                schnittstellen.add(schnittstelle);
+
+            }
+
+            int arbeitsspeicher = Integer.parseInt(arbeitsspeicherField.getText());
+            int massenspeicher = Integer.parseInt(massenspeicherField.getText());
+            double einzelpreis = Double.parseDouble(einzelpreisField.getText());
+
+            computer.setHersteller(herstellerField.getText());
+            computer.setModell(modellField.getText());
+            computer.setArbeitsspeicher(arbeitsspeicher);
+            computer.setCpu(cpuField.getText());
+            computer.setMassenspeicher(massenspeicher);
+            computer.setTyp(typField.getText());
+            computer.setEinzelpreis(einzelpreis);
+            computer.setSchnittstellen(schnittstellen);
+
+            return computer;
+
+        } catch (NumberFormatException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+
+    }
+
+    private boolean allFieldsFilled() {
+
+        if (
+
+                !herstellerField.getText().isEmpty() &&
+                        !modellField.getText().isEmpty() &&
+                        !arbeitsspeicherField.getText().isEmpty() &&
+                        !cpuField.getText().isEmpty() &&
+                        !massenspeicherField.getText().isEmpty() &&
+                        !typField.getText().isEmpty() &&
+                        !einzelpreisField.getText().isEmpty()
+
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+
+
+    }
+    public Computer readNewDataFromUi() {
+        try {
+
+            int arbeitsspeicher = Integer.parseInt(arbeitsspeicherField.getText());
+            int massenspeicher = Integer.parseInt(massenspeicherField.getText());
+            double einzelpreis = Double.parseDouble(einzelpreisField.getText());
+
+            ArrayList<Schnittstelle> schnittstellen = new ArrayList<>();
+
+            for (int i = 0; i < schnittstellenListModel.getSize(); i++) {
+
+                String element = schnittstellenListModel.getElementAt(i);
+
+                Schnittstelle schnittstelle = new Schnittstelle(element);
+
+                schnittstellen.add(schnittstelle);
+
+            }
+
+            Computer computer = new Computer(
+                    herstellerField.getText(),
+                    modellField.getText(),
+                    arbeitsspeicher,
+                    cpuField.getText(),
+                    massenspeicher,
+                    typField.getText(),
+                    einzelpreis,
+                    schnittstellen
+            );
+
+            return computer;
+
+        } catch (NumberFormatException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
     }
 
     public void renderComputerData (Computer computer) {
