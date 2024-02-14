@@ -1,6 +1,8 @@
 package Program.View;
 
+import Program.Repository.Adresse;
 import Program.Repository.Computer;
+import Program.Repository.Schnittstelle;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -10,6 +12,7 @@ import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
 public class ComputerUi extends JDialog {
 
@@ -77,7 +80,7 @@ public class ComputerUi extends JDialog {
 
     public void init(Computer computer) {
 
-        setTitle("Option Selection");
+        setTitle("Computer");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setMinimumSize(new Dimension(400, 500));
         setLayout(new BorderLayout());
@@ -169,7 +172,7 @@ public class ComputerUi extends JDialog {
         abbrechenButton = new JButton("Abbrechen");
         deleteButton = new JButton("löschen");
         schnittstelleAddButton = new JButton("neue Schnittstelle");
-        schnittstelleDeleteButton = new JButton("Schnittstelle löschen");
+        schnittstelleDeleteButton = new JButton("Schnittstelle entfernen");
 
         buttonPanel.add(speichernButton);
         buttonPanel.add(deleteButton);
@@ -199,6 +202,11 @@ public class ComputerUi extends JDialog {
         computerPanel.add(einzelpreisLabel);
         computerPanel.add(einzelpreisField);
 
+        if (isEmpty) {
+            System.out.println("neuer Kunde");
+        } else {
+            renderComputerData(computer);
+        }
 
         addActionListener();
 
@@ -223,27 +231,60 @@ public class ComputerUi extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                int schnittstellenIndex = schnittstellenList.getSelectedIndex();
+                schnittstellenListModel.remove(schnittstellenIndex);
+
             }
         });
 
         speichernButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dispose();
             }
         });
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dispose();
             }
         });
         abbrechenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                dispose();
             }
         });
+    }
+
+    public void renderComputerData (Computer computer) {
+
+        herstellerField.setText(computer.getHersteller());
+        modellField.setText(computer.getModell());
+        arbeitsspeicherField.setText(Integer.toString(computer.getArbeitsspeicher()));
+        cpuField.setText(computer.getCpu());
+        massenspeicherField.setText(Integer.toString(computer.getMassenspeicher()));
+        typField.setText(computer.getTyp());
+        einzelpreisField.setText(Double.toString(computer.getEinzelpreis()));
+
+        schnittstellenListModel.removeAllElements();
+
+        for (Schnittstelle schnittstelle : computer.getSchnittstellen()){
+            String eintrag = schnittstelle.getSchnittstelle();
+            schnittstellenListModel.addElement(eintrag);
+        }
+
+        schnittstellenList.setModel(schnittstellenListModel);
+
+
+    }
+
+    public void addToSchnittstellenList(Schnittstelle schnittstelle) {
+
+        schnittstellenListModel.addElement(schnittstelle.getSchnittstelle());
+
+        schnittstellenList.setModel(schnittstellenListModel);
+
     }
 
 }

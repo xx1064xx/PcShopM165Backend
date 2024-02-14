@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public interface IComputer {
 
     ArrayList<Computer> getAll();
-    Computer getById(ObjectId computerId);
+    Computer getByIndex(int index);
     void insert(Computer computer);
     void update(Computer computer);
     void delete(ObjectId computerId);

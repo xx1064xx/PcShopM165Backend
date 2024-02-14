@@ -1,30 +1,27 @@
 package Program.DbAccess;
 
-import Program.Repository.Adresse;
 import Program.Repository.Computer;
-import Program.Repository.Kunde;
 import Program.Repository.Schnittstelle;
-import Program.Service.ComputerService;
-import Program.Service.KundenService;
+import Program.Service.Computerservice;
 import com.mongodb.client.*;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ComputerDbAccess {
 
-    private ComputerService computerService;
+    private Computerservice computerService;
     private MongoClient mongoClient;
     private MongoDatabase mongoDatabase;
     private String database = "pcShopM165";
     private String connectionString = "mongodb://localhost:27017";
     private String collectionName = "computer";
 
-    public ComputerDbAccess (ComputerService computerService) {
+    public ComputerDbAccess (Computerservice computerService) {
         this.computerService = computerService;
+        connectToDb();
     }
 
     public void connectToDb() {
@@ -52,6 +49,16 @@ public class ComputerDbAccess {
 
     // hilfsmethoden
     private Computer documentToComputer(Document document) {
+
+        ArrayList<Schnittstelle> schnittstellen = new ArrayList<>();
+        List<Document> schnittstellenList = (List<Document>) document.get("schnittstellen");
+        for (Document schnittstelleDoc : schnittstellenList) {
+            String schnittstellenName = schnittstelleDoc.getString("name");
+            Schnittstelle schnittstelle = new Schnittstelle(schnittstellenName);
+            schnittstellen.add(schnittstelle);
+        }
+
+
         ObjectId computerId = document.getObjectId("_id");
         String hersteller = document.getString("hersteller");
         String modell = document.getString("modell");
@@ -61,13 +68,6 @@ public class ComputerDbAccess {
         String typ = document.getString("typ");
         double einzelpreis = document.getDouble("einzelpreis");
 
-        ArrayList<Schnittstelle> schnittstellen = new ArrayList<>();
-        List<Document> schnittstellenList = (List<Document>) document.get("schnittstellen");
-        for (Document schnittstelleDoc : schnittstellenList) {
-            String schnittstellenName = schnittstelleDoc.getString("schnittstellenName");
-            Schnittstelle schnittstelle = new Schnittstelle(schnittstellenName);
-            schnittstellen.add(schnittstelle);
-        }
 
         return new Computer(computerId, hersteller, modell, arbeitsspeicher, cpu, massenspeicher, typ, einzelpreis, schnittstellen);
     }

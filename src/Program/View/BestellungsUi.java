@@ -59,7 +59,7 @@ public class BestellungsUi extends JDialog {
 
     public void init() {
 
-        setTitle("Option Selection");
+        setTitle("Bestellungen");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setMinimumSize(new Dimension(400, 250));
         setLayout(new BorderLayout());

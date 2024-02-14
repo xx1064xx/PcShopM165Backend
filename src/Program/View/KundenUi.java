@@ -68,7 +68,7 @@ public class KundenUi extends JDialog {
 
     public void init(Kunde kunde) {
 
-        setTitle("Option Selection");
+        setTitle("Kunden");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setMinimumSize(new Dimension(400, 500));
         setLayout(new BorderLayout());

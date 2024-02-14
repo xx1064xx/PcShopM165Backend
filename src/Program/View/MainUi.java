@@ -74,7 +74,7 @@ public class MainUi extends JFrame {
     }
 
     public void init() {
-        setTitle("Option Selection");
+        setTitle("Verwaltung");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setMinimumSize(new Dimension(400, 500));
@@ -139,6 +139,7 @@ public class MainUi extends JFrame {
         addMouseListener();
 
         updateAllKunden();
+        updateAllComputer();
 
         pack();
         setLocationRelativeTo(null);
@@ -201,13 +202,13 @@ public class MainUi extends JFrame {
 
                 selectedComputerIndex = computerList.getSelectedIndex();
 
-                if (selectedKundenIndex < 0) {
+                if (selectedComputerIndex < 0) {
                     System.out.println("kein Computer ausgewählt");
                 } else {
 
-                    // Computer computer = controller.getComputerByIndex(selectedComputerIndex);
+                    Computer computer = controller.getComputerByIndex(selectedComputerIndex);
 
-                    // computerUi = new ComputerUi(mainUi, false, computer, selectedComputerIndex);
+                    computerUi = new ComputerUi(mainUi, false, computer, selectedComputerIndex);
 
                 }
 
@@ -283,6 +284,19 @@ public class MainUi extends JFrame {
         }
 
         kundenList.setModel(kundenListModel);
+
+    }
+
+    public void updateAllComputer() {
+
+        computerListModel.removeAllElements();
+
+        for (Computer computer : controller.getAllComputer()){
+            String eintrag = computer.getHersteller() + " " + computer.getModell();
+            computerListModel.addElement(eintrag);
+        }
+
+        computerList.setModel(computerListModel);
 
     }
 

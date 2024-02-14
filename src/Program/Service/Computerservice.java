@@ -8,17 +8,16 @@ import Program.Repository.Kunde;
 
 import java.util.ArrayList;
 
-public class ComputerService {
+public class Computerservice {
 
     private Controller controller;
     private ComputerDbAccess computerDbAccess;
     private ComputerRepository computerRepository;
 
-    public ComputerService(Controller controller) {
+    public Computerservice(Controller controller) {
         this.controller = controller;
         computerRepository = new ComputerRepository();
         computerDbAccess = new ComputerDbAccess(this);
-
 
     }
 
@@ -27,6 +26,17 @@ public class ComputerService {
         ArrayList<Computer> computerList = computerDbAccess.getAllComputer();
 
         computerRepository.setAll(computerList);
+    }
+
+    public ArrayList<Computer> getAllComputer() {
+        ArrayList<Computer> computers = computerRepository.getAll();
+
+        return computers;
+    }
+
+    public Computer getByIndex(int index) {
+        Computer computer = computerRepository.getByIndex(index);
+        return computer;
     }
 
 }

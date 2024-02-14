@@ -20,9 +20,11 @@ public class ComputerRepository implements IComputer {
     }
 
     @Override
-    public Computer getById(ObjectId computerId) {
+    public Computer getByIndex(int index) {
 
-        return null; // Wenn kein Computer mit der angegebenen ID gefunden wurde
+        Computer computer = computers.get(index);
+
+        return computer;
     }
 
     @Override
@@ -43,8 +45,8 @@ public class ComputerRepository implements IComputer {
 
     @Override
     public void setAll(ArrayList computers) {
-        // Speichern der Änderungen
-        // Implementierung je nach Bedarf (z. B. Speichern in einer Datenbank)
+
+        this.computers = computers;
     }
 
 }
