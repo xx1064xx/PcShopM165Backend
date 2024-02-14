@@ -9,7 +9,6 @@ public interface IKunde {
 
     ArrayList<Kunde> getAll();
     Kunde getByIndex(int index);
-    void insert(Kunde kunde);
     void update(Kunde kunde);
     void delete(ObjectId kundenId);
     void setAll(ArrayList<Kunde> kunden);

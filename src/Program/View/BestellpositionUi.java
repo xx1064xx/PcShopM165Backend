@@ -1,7 +1,11 @@
 package Program.View;
 
+import Program.Repository.Computer;
+import Program.Repository.Kunde;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class BestellpositionUi extends JDialog {
 
@@ -14,7 +18,7 @@ public class BestellpositionUi extends JDialog {
     private JLabel computerLabel;
     private JLabel preisInfoLabel;
     private JLabel preisLabel;
-    private JLabel stueckzahlInfoLabel;
+    private JSpinner stueckzahlSpinner;
     private JLabel stueckzahlLabel;
 
     // combobox
@@ -48,12 +52,12 @@ public class BestellpositionUi extends JDialog {
         setMinimumSize(new Dimension(400, 250));
         setLayout(new BorderLayout());
 
-        computerCombobox = new JComboBox();
+        computerCombobox = new JComboBox(getAllComputer());
         computerLabel = new JLabel("Computer:");
         preisLabel = new JLabel("Preis:");
         preisInfoLabel = new JLabel("");
         stueckzahlLabel = new JLabel("Stückzahl:");
-        stueckzahlInfoLabel = new JLabel("");
+        stueckzahlSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
 
         saveButton = new JButton("speichern");
         deleteButton = new JButton("löschen");
@@ -71,7 +75,7 @@ public class BestellpositionUi extends JDialog {
         mainPanel.add(preisLabel);
         mainPanel.add(preisInfoLabel);
         mainPanel.add(stueckzahlLabel);
-        mainPanel.add(stueckzahlInfoLabel);
+        mainPanel.add(stueckzahlSpinner);
 
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
@@ -80,6 +84,22 @@ public class BestellpositionUi extends JDialog {
         setLocationRelativeTo(null);
 
         setVisible(true);
+
+    }
+
+    private String[] getAllComputer() {
+
+        ArrayList<Computer> computers = bestellungsUi.getAllComputer();
+        String[] computerArray = new String[computers.size()];
+
+        for (int i = 0; i < computers.size(); i++) {
+            Computer computer = computers.get(i);
+            String hersteller = computer.getHersteller();
+            String modell = computer.getModell();
+            computerArray[i] = hersteller + " " + modell;
+        }
+
+        return computerArray;
 
     }
 }

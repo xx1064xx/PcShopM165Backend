@@ -30,12 +30,6 @@ public class KundenRepository implements IKunde {
     }
 
     @Override
-    public void insert(Kunde kunde) {
-
-        kunden.add(kunde);
-    }
-
-    @Override
     public void update(Kunde updatedKunde) {
 
         ObjectId updatedKundenId = updatedKunde.getKundenId();

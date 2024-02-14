@@ -28,12 +28,6 @@ public class ComputerRepository implements IComputer {
     }
 
     @Override
-    public void insert(Computer computer) {
-
-        computers.add(computer);
-    }
-
-    @Override
     public void update(Computer updatedComputer) {
 
         ObjectId updatedComputerId = updatedComputer.getComputerId();

@@ -1,9 +1,13 @@
 package Program.View;
 
+import Program.Repository.Computer;
+import Program.Repository.Kunde;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class BestellungsUi extends JDialog {
 
@@ -14,9 +18,9 @@ public class BestellungsUi extends JDialog {
 
     // UI
 
-    // Textfelder
+    // Eingabefelder
     private JTextField dateField;
-    private JTextField kundenField;
+    private JComboBox<String> kundenComboBox;
     private JTextField totalField;
 
     // Labels
@@ -65,7 +69,7 @@ public class BestellungsUi extends JDialog {
         setLayout(new BorderLayout());
 
         dateField = new JTextField();
-        kundenField = new JTextField();
+        kundenComboBox = new JComboBox<>(getAllKundenAsArray());
         totalField = new JTextField();
 
         dateLabel = new JLabel("Bestelldatum:");
@@ -116,7 +120,7 @@ public class BestellungsUi extends JDialog {
         computerPanel.add(dateLabel);
         computerPanel.add(dateField);
         computerPanel.add(kundenLabel);
-        computerPanel.add(kundenField);
+        computerPanel.add(kundenComboBox);
         computerPanel.add(totalLabel);
         computerPanel.add(totalField);
 
@@ -139,6 +143,28 @@ public class BestellungsUi extends JDialog {
 
             }
         });
+    }
+
+    public ArrayList<Computer> getAllComputer() {
+        ArrayList<Computer> computers = mainUi.getAllComputer();
+
+        return computers;
+    }
+
+    private String[] getAllKundenAsArray() {
+
+        ArrayList<Kunde> kunden = mainUi.getAllKunden();
+        String[] kundenArray = new String[kunden.size()];
+
+        for (int i = 0; i < kunden.size(); i++) {
+            Kunde kunde = kunden.get(i);
+            String vorname = kunde.getVorname();
+            String nachname = kunde.getNachname();
+            kundenArray[i] = vorname + " " + nachname;
+        }
+
+        return kundenArray;
+
     }
 
 }

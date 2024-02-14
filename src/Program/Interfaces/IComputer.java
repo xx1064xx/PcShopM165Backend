@@ -10,7 +10,6 @@ public interface IComputer {
 
     ArrayList<Computer> getAll();
     Computer getByIndex(int index);
-    void insert(Computer computer);
     void update(Computer computer);
     void delete(ObjectId computerId);
     void setAll(ArrayList<Kunde> computers);

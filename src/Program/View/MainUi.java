@@ -225,6 +225,22 @@ public class MainUi extends JFrame {
 
     }
 
+    public ArrayList<Kunde> getAllKunden() {
+
+        ArrayList<Kunde> kunden = controller.getAllKunden();
+
+        return kunden;
+
+    }
+
+    public ArrayList<Computer> getAllComputer() {
+
+        ArrayList<Computer> computers = controller.getAllComputer();
+
+        return computers;
+
+    }
+
     // kunden
 
     public void addNewKunde(Kunde kunde) {
