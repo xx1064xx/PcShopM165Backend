@@ -19,7 +19,8 @@ public class KundenService {
         this.controller = controller;
 
         kundenDbAccess = new KundenDbAccess(this);
-        kundenRepository = new KundenRepository(this);
+        kundenRepository = new KundenRepository();
+
     }
 
     // functions

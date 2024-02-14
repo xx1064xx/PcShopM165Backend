@@ -43,7 +43,7 @@ public class BestellpositionUi extends JDialog {
 
     public void init(){
 
-        setTitle("Option Selection");
+        setTitle("Bestellpositionen");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setMinimumSize(new Dimension(400, 250));
         setLayout(new BorderLayout());

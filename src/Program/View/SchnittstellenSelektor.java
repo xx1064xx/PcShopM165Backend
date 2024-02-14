@@ -1,7 +1,11 @@
 package Program.View;
 
+import Program.Repository.Schnittstelle;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SchnittstellenSelektor extends JDialog {
 
@@ -31,15 +35,15 @@ public class SchnittstellenSelektor extends JDialog {
     }
 
     public void init() {
-        setTitle("Option Selection");
+        setTitle("Schnittstellen");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setMinimumSize(new Dimension(200, 100));
         setLayout(new BorderLayout());
 
         panel = new JPanel();
 
-        addButton = new JButton("abbrechen");
-        abbrechenButton = new JButton("neu");
+        addButton = new JButton("neu");
+        abbrechenButton = new JButton("abbrechen");
 
         panel.add(addButton);
         panel.add(abbrechenButton);
@@ -56,10 +60,34 @@ public class SchnittstellenSelektor extends JDialog {
         add(comboBox, BorderLayout.CENTER);
         add(panel, BorderLayout.SOUTH);
 
+        addActionListener();
+
         pack();
         setLocationRelativeTo(null);
 
         setVisible(true);
     }
 
+    public void addActionListener() {
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String schnittstellenName = (String) comboBox.getSelectedItem();
+                Schnittstelle schnittstelle = new Schnittstelle(schnittstellenName);
+                dispose();
+                computerUi.addToSchnittstellenList(schnittstelle);
+
+            }
+        });
+
+        abbrechenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                dispose();
+
+            }
+        });
+    }
 }

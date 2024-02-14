@@ -1,17 +1,19 @@
 package Program.Interfaces;
 
 import Program.Repository.Computer;
+import Program.Repository.Kunde;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 
 public interface IComputer {
 
     ArrayList<Computer> getAll();
-    Computer getById(int computerId);
+    Computer getByIndex(int index);
     void insert(Computer computer);
     void update(Computer computer);
-    void delete(int computerId);
-    void save();
+    void delete(ObjectId computerId);
+    void setAll(ArrayList<Kunde> computers);
 
 
 }

@@ -1,8 +1,9 @@
 package Program.Controller;
 
+import Program.Repository.Computer;
 import Program.Repository.Kunde;
 import Program.Service.Bestellungsservice;
-import Program.Service.ComputerService;
+import Program.Service.Computerservice;
 import Program.Service.KundenService;
 import Program.View.MainUi;
 import org.bson.types.ObjectId;
@@ -15,14 +16,14 @@ public class Controller {
 
     // services
     private KundenService kundenservice;
-    private ComputerService computerService;
+    private Computerservice computerservice;
     private Bestellungsservice bestellungsservice;
 
     public Controller() {
         kundenservice = new KundenService(this);
-        mainUi = new MainUi(this);
-        computerService = new ComputerService(this);
+        computerservice = new Computerservice(this);
         bestellungsservice = new Bestellungsservice(this);
+        mainUi = new MainUi(this);
     }
 
 
@@ -52,5 +53,21 @@ public class Controller {
         kundenservice.deleteKunde(kundenId);
     }
 
+    // computer
+
+    public void readAllComputer() {
+        computerservice.readAllComputer();
+    }
+    public ArrayList<Computer> getAllComputer() {
+
+        ArrayList<Computer> computers = computerservice.getAllComputer();
+
+        return computers;
+    }
+
+    public Computer getComputerByIndex(int index) {
+        Computer computer = computerservice.getByIndex(index);
+        return computer;
+    }
 
 }
