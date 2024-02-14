@@ -254,11 +254,10 @@ public class ComputerUi extends JDialog {
                         Computer computer = readNewDataFromUi();
                         mainUi.addNewComputer(computer);
                     } else {
-                    /*
-                    Kunde kunde = readDataFromUi();
+
+                    Computer computer = readDataFromUi();
                     mainUi.updateComputer(computer);
 
-                     */
                     }
 
                     mainUi.updateAllComputer();

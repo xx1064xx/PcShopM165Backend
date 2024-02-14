@@ -106,6 +106,35 @@ public class ComputerDbAccess {
         collection.deleteOne(Filters.eq("_id", objectId));
     }
 
+    public void updateComputer(Computer updatedComputer) {
+
+        ObjectId computerId = updatedComputer.getComputerId();
+
+
+        Document updatedComputerDocument = new Document();
+        updatedComputerDocument.append("hersteller", updatedComputer.getHersteller());
+        updatedComputerDocument.append("modell", updatedComputer.getModell());
+        updatedComputerDocument.append("arbeitsspeicher", updatedComputer.getArbeitsspeicher());
+        updatedComputerDocument.append("cpu", updatedComputer.getCpu());
+        updatedComputerDocument.append("massenspeicher", updatedComputer.getMassenspeicher());
+        updatedComputerDocument.append("typ", updatedComputer.getTyp());
+        updatedComputerDocument.append("einzelpreis", updatedComputer.getEinzelpreis());
+
+        List<Document> schnittstellenList = new ArrayList<>();
+        for (Schnittstelle schnittstelle : updatedComputer.getSchnittstellen()) {
+            Document schnittstelleDoc = new Document("name", schnittstelle.getSchnittstelle());
+            schnittstellenList.add(schnittstelleDoc);
+        }
+        updatedComputerDocument.append("schnittstellen", schnittstellenList);
+
+        MongoCollection<Document> collection = mongoDatabase.getCollection(collectionName);
+
+        collection.updateOne(
+                Filters.eq("_id", computerId),
+                new Document("$set", updatedComputerDocument)
+        );
+    }
+
 
 
 }

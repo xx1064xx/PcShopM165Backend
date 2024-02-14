@@ -34,8 +34,25 @@ public class ComputerRepository implements IComputer {
     }
 
     @Override
-    public void update(Computer computer) {
+    public void update(Computer updatedComputer) {
 
+        ObjectId updatedComputerId = updatedComputer.getComputerId();
+
+        for (Computer computer : computers) {
+            if (computer.getComputerId().equals(updatedComputerId)) {
+
+                computer.setHersteller(updatedComputer.getHersteller());
+                computer.setModell(updatedComputer.getModell());
+                computer.setArbeitsspeicher(updatedComputer.getArbeitsspeicher());
+                computer.setCpu(updatedComputer.getCpu());
+                computer.setMassenspeicher(updatedComputer.getMassenspeicher());
+                computer.setTyp(updatedComputer.getTyp());
+                computer.setEinzelpreis(updatedComputer.getEinzelpreis());
+                computer.setSchnittstellen(updatedComputer.getSchnittstellen());
+
+                break;
+            }
+        }
     }
 
     @Override

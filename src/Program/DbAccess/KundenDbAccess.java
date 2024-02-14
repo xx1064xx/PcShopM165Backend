@@ -76,9 +76,9 @@ public class KundenDbAccess {
 
     public void updateKunde(Kunde updatedKunde) {
 
-        ObjectId customerId = updatedKunde.getKundenId();
+        ObjectId kundenId = updatedKunde.getKundenId();
 
-        // Erstelle ein neues Document mit den aktualisierten Kundendaten
+
         Document updatedCustomerDocument = new Document();
         updatedCustomerDocument.append("geschlecht", updatedKunde.getGeschlecht());
         updatedCustomerDocument.append("nachname", updatedKunde.getNachname());
@@ -95,7 +95,7 @@ public class KundenDbAccess {
         MongoCollection<Document> collection = mongoDatabase.getCollection(collectionName);
 
         collection.updateOne(
-                Filters.eq("_id", customerId),
+                Filters.eq("_id", kundenId),
                 new Document("$set", updatedCustomerDocument)
         );
     }

@@ -282,6 +282,9 @@ public class MainUi extends JFrame {
     public void deleteComputer(ObjectId computerId) {
         controller.deleteComputer(computerId);
     }
+    public void updateComputer(Computer computer) {
+        controller.updateComputer(computer);
+    }
 
 
 }

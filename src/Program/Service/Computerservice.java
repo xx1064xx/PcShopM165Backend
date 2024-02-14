@@ -57,4 +57,12 @@ public class Computerservice {
 
     }
 
+    public void updateComputer(Computer computer) {
+
+        computerDbAccess.updateComputer(computer);
+
+        computerRepository.update(computer);
+
+    }
+
 }

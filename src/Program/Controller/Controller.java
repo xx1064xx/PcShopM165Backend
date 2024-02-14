@@ -76,5 +76,8 @@ public class Controller {
     public void deleteComputer(ObjectId computerId) {
         computerservice.deleteComputer(computerId);
     }
+    public void updateComputer(Computer computer) {
+        computerservice.updateComputer(computer);
+    }
 
 }
