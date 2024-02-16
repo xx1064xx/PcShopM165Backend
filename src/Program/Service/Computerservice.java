@@ -50,6 +50,13 @@ public class Computerservice {
 
     }
 
+    public Computer getById(ObjectId computerid) {
+        Computer computer = computerRepository.getById(computerid);
+
+        return computer;
+
+    }
+
     public void deleteComputer(ObjectId computerId) {
 
         computerDbAccess.deleteComputer(computerId);

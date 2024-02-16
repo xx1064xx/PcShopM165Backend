@@ -31,7 +31,6 @@ public class BestellpositionUi extends JDialog {
 
     // buttons
     private JButton saveButton;
-    private JButton deleteButton;
     private JButton abbrechenbutton;
 
     // panels
@@ -67,14 +66,12 @@ public class BestellpositionUi extends JDialog {
         stueckzahlSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Integer.MAX_VALUE, 1));
 
         saveButton = new JButton("speichern");
-        deleteButton = new JButton("löschen");
         abbrechenbutton = new JButton("abbrechen");
 
         buttonPanel = new JPanel();
         mainPanel = new JPanel(new GridLayout(6, 1));
 
         buttonPanel.add(saveButton);
-        buttonPanel.add(deleteButton);
         buttonPanel.add(abbrechenbutton);
 
         mainPanel.add(computerLabel);
@@ -138,9 +135,21 @@ public class BestellpositionUi extends JDialog {
                     bestellungsUi.updateBestellposition(bestellposition);
                 }
 
+                bestellungsUi.updateTotalPrice();
+
 
             }
         });
+
+        abbrechenbutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                dispose();
+
+            }
+        });
+
 
     }
 

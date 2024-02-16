@@ -1,16 +1,17 @@
 package Program.View;
 
-import Program.Repository.Bestellposition;
-import Program.Repository.Computer;
-import Program.Repository.Kunde;
+import Program.Repository.*;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BestellungsUi extends JDialog {
 
@@ -19,6 +20,7 @@ public class BestellungsUi extends JDialog {
     private BestellpositionUi bestellpositionUi;
     private boolean isEmpty;
     private ArrayList<Bestellposition> tempBestellpositionen;
+    private double totalPrice;
 
     // UI
 
@@ -145,6 +147,7 @@ public class BestellungsUi extends JDialog {
         computerPanel.add(totalLabel);
         computerPanel.add(totalInfoLabel);
 
+        updateTotalPrice();
         addActionListener();
 
         pack();
@@ -176,6 +179,8 @@ public class BestellungsUi extends JDialog {
                     removeFromBestellpositionenList(index);
                 }
 
+                updateTotalPrice();
+
             }
         });
         bestellpositionEditButton.addActionListener(new ActionListener() {
@@ -196,12 +201,95 @@ public class BestellungsUi extends JDialog {
             }
         });
 
+        abbrechenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                dispose();
+            }
+        });
+
+        speichernButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (allFieldsFilled()) {
+                    dispose();
+
+                    Date date = stringToDate();
+                    Kunde kunde = mainUi.getKundeByIndex(kundenComboBox.getSelectedIndex());
+
+                    System.out.println(kunde.getNachname());
+
+                    Bestellung bestellung = new Bestellung(
+                            date,
+                            kunde,
+                            tempBestellpositionen,
+                            totalPrice
+                    );
+
+                    mainUi.addNewBestellung(bestellung);
+
+                }
+
+            }
+        });
+
+    }
+
+    private Date stringToDate() {
+        try {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = dateFormat.parse(dateField.getText());
+            return date;
+
+        } catch (NumberFormatException | ParseException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public void updateTotalPrice() {
+
+        double actualPrice = 0;
+
+        for (int i = 0; i < tempBestellpositionen.size(); i++) {
+
+            Bestellposition aktuelleBestellposition = tempBestellpositionen.get(i);
+
+            double einzelpreis = aktuelleBestellposition.getPreis();
+            int stueckzahl = aktuelleBestellposition.getStueckzahl();
+
+            for (int anz = 1; anz <= stueckzahl; anz++) {
+                actualPrice = actualPrice + einzelpreis;
+            }
+
+        }
+
+        actualPrice = Math.round(actualPrice * 100.0) / 100.0;
+
+        totalPrice = actualPrice;
+
+        totalInfoLabel.setText(Double.toString(actualPrice));
+
     }
 
     public ArrayList<Computer> getAllComputer() {
         ArrayList<Computer> computers = mainUi.getAllComputer();
 
         return computers;
+    }
+
+    private boolean allFieldsFilled() {
+
+        if (!dateField.getText().isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+
+
     }
 
     public void updateBestellposition(Bestellposition bestellpositionToUpdate) {

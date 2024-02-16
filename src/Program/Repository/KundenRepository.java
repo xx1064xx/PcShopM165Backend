@@ -69,4 +69,19 @@ public class KundenRepository implements IKunde {
         this.kunden = kunden;
     }
 
+    @Override
+    public Kunde getById(ObjectId kundenId) {
+
+        Kunde kundeToReturn = null;
+
+        for (Kunde kunde : kunden) {
+            if (kunde.getKundenId().equals(kundenId)) {
+                kundeToReturn = kunde;
+            }
+        }
+
+        return kundeToReturn;
+
+    }
+
 }

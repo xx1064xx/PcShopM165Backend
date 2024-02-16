@@ -9,8 +9,7 @@ import java.util.ArrayList;
 public interface IBestellung {
     ArrayList<Bestellung> getAll();
     Bestellung getById(ObjectId bestellungsId);
-    void insert(Bestellung bestellung);
     void update(Bestellung bestellung);
     void delete(ObjectId bestellungsId);
-    void save();
+    void setAll(ArrayList<Bestellung> bestellungen);
 }

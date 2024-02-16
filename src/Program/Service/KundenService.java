@@ -43,6 +43,11 @@ public class KundenService {
         Kunde kunde = kundenRepository.getByIndex(index);
         return kunde;
     }
+
+    public Kunde getById(ObjectId kundenId) {
+        Kunde kunde = kundenRepository.getById(kundenId);
+        return kunde;
+    }
     public void addNewKunde(Kunde kunde) {
 
         kundenDbAccess.addNewKunde(kunde);
@@ -67,5 +72,6 @@ public class KundenService {
         kundenRepository.delete(kundenId);
 
     }
+
 
 }

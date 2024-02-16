@@ -1,5 +1,6 @@
 package Program.Interfaces;
 
+import Program.Repository.Computer;
 import Program.Repository.Kunde;
 import org.bson.types.ObjectId;
 
@@ -12,4 +13,5 @@ public interface IKunde {
     void update(Kunde kunde);
     void delete(ObjectId kundenId);
     void setAll(ArrayList<Kunde> kunden);
+    Kunde getById(ObjectId kundenId);
 }

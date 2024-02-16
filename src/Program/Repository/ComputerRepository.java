@@ -67,4 +67,19 @@ public class ComputerRepository implements IComputer {
         this.computers = computers;
     }
 
+    @Override
+    public Computer getById(ObjectId computerId) {
+
+        Computer computerToReturn = null;
+
+        for (Computer computer : computers) {
+            if (computer.getComputerId().equals(computerId)) {
+                computerToReturn = computer;
+            }
+        }
+
+        return computerToReturn;
+
+    }
+
 }

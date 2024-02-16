@@ -1,6 +1,7 @@
 package Program.Repository;
 
 import Program.Interfaces.IBestellung;
+import Program.Service.Bestellungsservice;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
@@ -8,15 +9,16 @@ import java.util.ArrayList;
 public class BestellungsRepository implements IBestellung {
 
 
-    ArrayList<Bestellung> bestellungen;
+    private ArrayList<Bestellung> bestellungen;
+    private Bestellungsservice bestellungsservice;
 
-    public BestellungsRepository() {
+    public BestellungsRepository(Bestellungsservice bestellungsservice) {
         this.bestellungen = new ArrayList<>();
+        this.bestellungsservice = bestellungsservice;
     }
 
     @Override
     public ArrayList<Bestellung> getAll() {
-        // Rückgabe aller Bestellungen
         return bestellungen;
     }
 
@@ -30,13 +32,6 @@ public class BestellungsRepository implements IBestellung {
             }
         }
         return null; // Wenn keine Bestellung mit der angegebenen ID gefunden wurde
-    }
-
-
-    @Override
-    public void insert(Bestellung bestellung) {
-        // Einfügen einer neuen Bestellung
-        bestellungen.add(bestellung);
     }
 
 
@@ -63,11 +58,11 @@ public class BestellungsRepository implements IBestellung {
         }
     }
 
-
     @Override
-    public void save() {
-        // Speichern der Änderungen
-        // Implementierung je nach Bedarf (z. B. Speichern in einer Datenbank)
+    public void setAll(ArrayList<Bestellung> bestellungen) {
+
+        this.bestellungen = bestellungen;
+
     }
 
 

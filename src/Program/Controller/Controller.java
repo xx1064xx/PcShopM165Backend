@@ -1,5 +1,6 @@
 package Program.Controller;
 
+import Program.Repository.Bestellung;
 import Program.Repository.Computer;
 import Program.Repository.Kunde;
 import Program.Service.Bestellungsservice;
@@ -43,6 +44,10 @@ public class Controller {
         Kunde kunde = kundenservice.getByIndex(index);
         return kunde;
     }
+    public Kunde getKundeById(ObjectId kundenId) {
+        Kunde kunde = kundenservice.getById(kundenId);
+        return kunde;
+    }
     public void addNewKunde(Kunde kunde) {
         kundenservice.addNewKunde(kunde);
     }
@@ -79,5 +84,23 @@ public class Controller {
     public void updateComputer(Computer computer) {
         computerservice.updateComputer(computer);
     }
+    public Computer getComputerById(ObjectId computerId){
+        Computer computer = computerservice.getById(computerId);
+        return  computer;
+    }
+
+    // bestellung
+
+    public void addNewBestellung(Bestellung bestellung) {
+        bestellungsservice.addNewBestellung(bestellung);
+    }
+    public ArrayList<Bestellung> getAllBestellungen() {
+        ArrayList<Bestellung> bestellungen = bestellungsservice.getAllBestellungen();
+        return bestellungen;
+    }
+    public void readAllBestellungen() {
+        bestellungsservice.readAllBestellungen();
+    }
+
 
 }

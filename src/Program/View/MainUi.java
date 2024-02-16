@@ -1,6 +1,7 @@
 package Program.View;
 
 import Program.Controller.Controller;
+import Program.Repository.Bestellung;
 import Program.Repository.Computer;
 import Program.Repository.Kunde;
 import org.bson.types.ObjectId;
@@ -11,7 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainUi extends JFrame {
 
@@ -69,6 +73,7 @@ public class MainUi extends JFrame {
 
         controller.readAllKunden();
         controller.readAllComputer();
+        controller.readAllBestellungen();
 
         init();
 
@@ -140,6 +145,7 @@ public class MainUi extends JFrame {
 
         updateAllKunden();
         updateAllComputer();
+        updateAllBestellungen();
 
         pack();
         setLocationRelativeTo(null);
@@ -287,6 +293,8 @@ public class MainUi extends JFrame {
 
     }
 
+
+
     public Computer getComputerByIndex(int index) {
         Computer computer = controller.getComputerByIndex(index);
         return computer;
@@ -302,5 +310,33 @@ public class MainUi extends JFrame {
         controller.updateComputer(computer);
     }
 
+
+    // bestellungen
+
+    public void addNewBestellung(Bestellung bestellung) {
+        controller.addNewBestellung(bestellung);
+    }
+
+    public void updateAllBestellungen() {
+
+        bestellungsListModel.removeAllElements();
+
+        for (Bestellung bestellung : controller.getAllBestellungen()){
+
+            Kunde kunde = bestellung.getKunde();
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            String bestellDatum = dateFormat.format(bestellung.getBestelldatum());
+
+
+            String eintrag = kunde.getVorname() + " " + kunde.getNachname() + " | " + bestellDatum;
+
+            bestellungsListModel.addElement(eintrag);
+        }
+
+        bestellungsList.setModel(bestellungsListModel);
+
+    }
 
 }

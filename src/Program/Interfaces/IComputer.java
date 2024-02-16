@@ -13,6 +13,7 @@ public interface IComputer {
     void update(Computer computer);
     void delete(ObjectId computerId);
     void setAll(ArrayList<Kunde> computers);
+    Computer getById(ObjectId computerId);
 
 
 }
