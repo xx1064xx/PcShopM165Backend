@@ -21,6 +21,7 @@ public class BestellungsUi extends JDialog {
     private boolean isEmpty;
     private ArrayList<Bestellposition> tempBestellpositionen;
     private double totalPrice;
+    private int selectedIndex;
 
     // UI
 
@@ -56,21 +57,22 @@ public class BestellungsUi extends JDialog {
 
     // tabbedpanes
     private JTabbedPane tabbedPane;
-    public BestellungsUi (MainUi mainUi, boolean isEmpty) {
+    public BestellungsUi (MainUi mainUi, boolean isEmpty, Bestellung bestellung, int index) {
 
         super(mainUi, "kundenView", true);
 
         this.mainUi = mainUi;
         this.bestellungsUi = this;
         this.isEmpty = isEmpty;
+        this.selectedIndex = index;
 
         this.tempBestellpositionen = new ArrayList<>();
 
-        init();
+        init(bestellung);
 
     }
 
-    public void init() {
+    public void init(Bestellung bestellung) {
 
         setTitle("Bestellungen");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -149,6 +151,12 @@ public class BestellungsUi extends JDialog {
 
         updateTotalPrice();
         addActionListener();
+
+        if (isEmpty) {
+            System.out.println("neue Bestellung");
+        } else {
+            renderBestellungData(bestellung);
+        }
 
         pack();
         setLocationRelativeTo(null);
@@ -229,11 +237,43 @@ public class BestellungsUi extends JDialog {
                     );
 
                     mainUi.addNewBestellung(bestellung);
+                    mainUi.updateAllBestellungen();
 
                 }
 
             }
         });
+
+    }
+
+    private void renderBestellungData(Bestellung bestellung) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(bestellung.getBestelldatum());
+        dateField.setValue(formattedDate);
+
+        Kunde kunde = bestellung.getKunde();
+
+        String vorname = kunde.getVorname();
+        String nachname = kunde.getNachname();
+
+        String computerComboboxContent = vorname + " " + nachname;
+
+        kundenComboBox.setSelectedItem(computerComboboxContent);
+
+        totalInfoLabel.setText(String.valueOf(bestellung.getTotal()));
+
+        bestellpositionenListModel.removeAllElements();
+
+        for (Bestellposition bestellposition  : bestellung.getBestellpositionen()){
+
+            Computer computer = bestellposition.getComputer();
+
+            String eintrag = (computer.getHersteller() + " " + computer.getModell() + " | Stückzahl: " + bestellposition.getStueckzahl());
+            bestellpositionenListModel.addElement(eintrag);
+        }
+
+        bestellpositionenList.setModel(bestellpositionenListModel);
 
     }
 

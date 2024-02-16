@@ -102,5 +102,10 @@ public class Controller {
         bestellungsservice.readAllBestellungen();
     }
 
+    public Bestellung getBestellungByIndex(int index) {
+        Bestellung bestellung = bestellungsservice.getByIndex(index);
+        return bestellung;
+    }
+
 
 }

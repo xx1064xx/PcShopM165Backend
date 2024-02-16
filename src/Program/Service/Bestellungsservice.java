@@ -48,5 +48,10 @@ public class Bestellungsservice {
         bestellungsRepository.setAll(bestellungsList);
     }
 
+    public Bestellung getByIndex(int index) {
+        Bestellung bestellung = bestellungsRepository.getByIndex(index);
+        return bestellung;
+    }
+
 
 }

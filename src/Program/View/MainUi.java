@@ -179,7 +179,7 @@ public class MainUi extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                bestellungsUi = new BestellungsUi(mainUi, true);
+                bestellungsUi = new BestellungsUi(mainUi, true, null, -1);
 
             }
         });
@@ -225,6 +225,17 @@ public class MainUi extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                selectedBestellungsIndex = bestellungsList.getSelectedIndex();
+
+                if (selectedBestellungsIndex < 0) {
+                    System.out.println("keine Bestellung ausgewählt");
+                } else {
+
+                    Bestellung bestellung = controller.getBestellungByIndex(selectedBestellungsIndex);
+
+                    bestellungsUi = new BestellungsUi(mainUi, false, bestellung, selectedBestellungsIndex);
+
+                }
 
             }
         });

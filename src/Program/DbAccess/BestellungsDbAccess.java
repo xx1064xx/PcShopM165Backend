@@ -110,8 +110,6 @@ public class BestellungsDbAccess {
 
         Kunde kunde = bestellungsservice.getKundeById(kundenid);
 
-        System.out.println(date);
-
         return new Bestellung(bestellungsId, date, kunde, bestellpositionen, total);
     }
 

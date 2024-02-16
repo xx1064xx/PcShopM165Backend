@@ -22,6 +22,11 @@ public class BestellungsRepository implements IBestellung {
         return bestellungen;
     }
 
+    public Bestellung getByIndex(int index) {
+        Bestellung bestellung = bestellungen.get(index);
+
+        return bestellung;
+    }
 
     @Override
     public Bestellung getById(ObjectId bestellungsId) {
