@@ -12,7 +12,9 @@ import java.util.ArrayList;
 public class BestellpositionUi extends JDialog {
 
     private BestellungsUi bestellungsUi;
+    private Bestellposition bestellposition;
     private boolean isEmpty;
+    private String[] computerArray;
 
     // UI
 
@@ -36,11 +38,12 @@ public class BestellpositionUi extends JDialog {
     private JPanel buttonPanel;
     private JPanel mainPanel;
 
-    public BestellpositionUi (BestellungsUi bestellungsUi, boolean isEmpty) {
+    public BestellpositionUi (BestellungsUi bestellungsUi, boolean isEmpty, Bestellposition bestellposition) {
 
         super(bestellungsUi, "kundenView", true);
 
         this.isEmpty = isEmpty;
+        this.bestellposition = bestellposition;
         this.bestellungsUi = bestellungsUi;
 
         init();
@@ -54,7 +57,9 @@ public class BestellpositionUi extends JDialog {
         setMinimumSize(new Dimension(425, 250));
         setLayout(new BorderLayout());
 
-        computerCombobox = new JComboBox(getAllComputer());
+        computerArray = getAllComputer();
+
+        computerCombobox = new JComboBox(computerArray);
         computerLabel = new JLabel("Computer:");
         preisLabel = new JLabel("Preis:");
         preisInfoLabel = new JLabel(String.valueOf(updatePrice()));
@@ -78,6 +83,10 @@ public class BestellpositionUi extends JDialog {
         mainPanel.add(preisInfoLabel);
         mainPanel.add(stueckzahlLabel);
         mainPanel.add(stueckzahlSpinner);
+
+        if(!isEmpty) {
+            renderBestellposition();
+        }
 
         add(mainPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
@@ -107,19 +116,47 @@ public class BestellpositionUi extends JDialog {
 
                 dispose();
 
-                int selectedIndex = computerCombobox.getSelectedIndex();
-                Computer computer = bestellungsUi.getComputerByIndex(selectedIndex);
+                if (isEmpty) {
+                    int selectedIndex = computerCombobox.getSelectedIndex();
+                    Computer computer = bestellungsUi.getComputerByIndex(selectedIndex);
 
-                Bestellposition bestellposition = new Bestellposition(
-                    computer,
-                        computer.getEinzelpreis(),
-                        (int) stueckzahlSpinner.getValue()
-                );
+                    Bestellposition bestellposition = new Bestellposition(
+                            computer,
+                            computer.getEinzelpreis(),
+                            (int) stueckzahlSpinner.getValue()
+                    );
 
-                bestellungsUi.addToBestellpositionenList(bestellposition);
+                    bestellungsUi.addToBestellpositionenList(bestellposition);
+                } else {
+
+                    Computer computer = bestellungsUi.getComputerByIndex(computerCombobox.getSelectedIndex());
+
+                    bestellposition.setComputer(computer);
+                    bestellposition.setPreis(computer.getEinzelpreis());
+                    bestellposition.setStueckzahl((int) stueckzahlSpinner.getValue());
+
+                    bestellungsUi.updateBestellposition(bestellposition);
+                }
+
 
             }
         });
+
+    }
+
+    private void renderBestellposition() {
+
+        Computer computer = bestellposition.getComputer();
+        int anzahl = bestellposition.getStueckzahl();
+
+        String hersteller = computer.getHersteller();
+        String modell = computer.getModell();
+
+        String computerComboboxContent = hersteller + " " + modell;
+
+        computerCombobox.setSelectedItem(computerComboboxContent);
+        stueckzahlSpinner.setValue(anzahl);
+
 
     }
 

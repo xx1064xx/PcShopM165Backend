@@ -159,7 +159,7 @@ public class BestellungsUi extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                bestellpositionUi = new BestellpositionUi(bestellungsUi, true);
+                bestellpositionUi = new BestellpositionUi(bestellungsUi, true, null);
 
             }
         });
@@ -178,12 +178,53 @@ public class BestellungsUi extends JDialog {
 
             }
         });
+        bestellpositionEditButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int index = bestellpositionenList.getSelectedIndex();
+
+                if (index < 0){
+                    System.out.println("Keine Bestellposition ausgewählt");
+                } else {
+
+                    Bestellposition bestellposition = tempBestellpositionen.get(index);
+
+                    bestellpositionUi = new BestellpositionUi(bestellungsUi, false, bestellposition);
+                }
+
+            }
+        });
+
     }
 
     public ArrayList<Computer> getAllComputer() {
         ArrayList<Computer> computers = mainUi.getAllComputer();
 
         return computers;
+    }
+
+    public void updateBestellposition(Bestellposition bestellpositionToUpdate) {
+
+        for (int i = 0; i < tempBestellpositionen.size(); i++) {
+            Bestellposition aktuelleBestellposition = tempBestellpositionen.get(i);
+            if (aktuelleBestellposition.equals(bestellpositionToUpdate)) {
+
+                Computer computer = bestellpositionToUpdate.getComputer();
+
+                aktuelleBestellposition.setComputer(computer);
+                aktuelleBestellposition.setPreis(bestellpositionToUpdate.getPreis());
+                aktuelleBestellposition.setStueckzahl(bestellpositionToUpdate.getStueckzahl());
+
+                String computerName = (computer.getHersteller() + " " + computer.getModell() + " | Stückzahl: " + aktuelleBestellposition.getStueckzahl());
+
+                bestellpositionenListModel.set(i, computerName);
+                bestellpositionenList.setModel(bestellpositionenListModel);
+
+                break;
+            }
+        }
+
     }
 
     private String[] getAllKundenAsArray() {
