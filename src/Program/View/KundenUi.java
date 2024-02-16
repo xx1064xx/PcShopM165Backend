@@ -70,7 +70,7 @@ public class KundenUi extends JDialog {
 
         setTitle("Kunden");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setMinimumSize(new Dimension(400, 500));
+        setMinimumSize(new Dimension(425, 500));
         setLayout(new BorderLayout());
 
         String[] genders = {

@@ -18,8 +18,7 @@ public class BestellungsUi extends JDialog {
     private BestellungsUi bestellungsUi;
     private BestellpositionUi bestellpositionUi;
     private boolean isEmpty;
-
-    private int[] computerBestellPosition;
+    private ArrayList<Bestellposition> tempBestellpositionen;
 
     // UI
 
@@ -39,6 +38,7 @@ public class BestellungsUi extends JDialog {
     private JButton deleteButton;
     private JButton bestellpositionAddButton;
     private JButton bestellpositionDeleteButton;
+    private JButton bestellpositionEditButton;
 
     // panels
     private JPanel buttonPanel;
@@ -61,7 +61,8 @@ public class BestellungsUi extends JDialog {
         this.mainUi = mainUi;
         this.bestellungsUi = this;
         this.isEmpty = isEmpty;
-        this.computerBestellPosition = new int[0];
+
+        this.tempBestellpositionen = new ArrayList<>();
 
         init();
 
@@ -71,7 +72,7 @@ public class BestellungsUi extends JDialog {
 
         setTitle("Bestellungen");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setMinimumSize(new Dimension(400, 250));
+        setMinimumSize(new Dimension(425, 250));
         setLayout(new BorderLayout());
 
         try {
@@ -119,6 +120,7 @@ public class BestellungsUi extends JDialog {
         deleteButton = new JButton("löschen");
         bestellpositionAddButton = new JButton("neue Position");
         bestellpositionDeleteButton = new JButton("Position löschen");
+        bestellpositionEditButton = new JButton("Position bearbeiten");
 
         buttonPanel.add(speichernButton);
         if (!isEmpty){
@@ -128,6 +130,7 @@ public class BestellungsUi extends JDialog {
 
         bestellpositionenButtonPanel.add(bestellpositionAddButton);
         bestellpositionenButtonPanel.add(bestellpositionDeleteButton);
+        bestellpositionenButtonPanel.add(bestellpositionEditButton);
 
         bestellpositionenPanel.add(bestellpositionenList, BorderLayout.CENTER);
         bestellpositionenPanel.add(bestellpositionenButtonPanel, BorderLayout.SOUTH);
@@ -141,7 +144,6 @@ public class BestellungsUi extends JDialog {
         computerPanel.add(kundenComboBox);
         computerPanel.add(totalLabel);
         computerPanel.add(totalInfoLabel);
-
 
         addActionListener();
 
@@ -158,6 +160,21 @@ public class BestellungsUi extends JDialog {
             public void actionPerformed(ActionEvent e) {
 
                 bestellpositionUi = new BestellpositionUi(bestellungsUi, true);
+
+            }
+        });
+
+        bestellpositionDeleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int index = bestellpositionenList.getSelectedIndex();
+
+                if (index < 0){
+                    System.out.println("Keine Bestellposition ausgewählt");
+                } else {
+                    removeFromBestellpositionenList(index);
+                }
 
             }
         });
@@ -204,12 +221,24 @@ public class BestellungsUi extends JDialog {
 
     }
 
-    public void addToBestellpositionenList(Bestellposition bestellposition, int selectedIndex) {
+    public void addToBestellpositionenList(Bestellposition bestellposition) {
 
         Computer computer = bestellposition.getComputer();
         String computerName = (computer.getHersteller() + " " + computer.getModell() + " | Stückzahl: " + bestellposition.getStueckzahl());
 
+        tempBestellpositionen.add(bestellposition);
+
         bestellpositionenListModel.addElement(computerName);
+
+        bestellpositionenList.setModel(bestellpositionenListModel);
+
+    }
+
+    public void removeFromBestellpositionenList(int index) {
+
+        tempBestellpositionen.remove(index);
+
+        bestellpositionenListModel.remove(index);
 
         bestellpositionenList.setModel(bestellpositionenListModel);
 

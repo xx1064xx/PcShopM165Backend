@@ -51,7 +51,7 @@ public class BestellpositionUi extends JDialog {
 
         setTitle("Bestellpositionen");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setMinimumSize(new Dimension(400, 250));
+        setMinimumSize(new Dimension(425, 250));
         setLayout(new BorderLayout());
 
         computerCombobox = new JComboBox(getAllComputer());
@@ -116,7 +116,7 @@ public class BestellpositionUi extends JDialog {
                         (int) stueckzahlSpinner.getValue()
                 );
 
-                bestellungsUi.addToBestellpositionenList(bestellposition, selectedIndex);
+                bestellungsUi.addToBestellpositionenList(bestellposition);
 
             }
         });

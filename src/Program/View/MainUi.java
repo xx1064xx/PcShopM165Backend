@@ -78,7 +78,7 @@ public class MainUi extends JFrame {
         setTitle("Verwaltung");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setMinimumSize(new Dimension(400, 500));
+        setMinimumSize(new Dimension(425, 500));
 
         setLayout(new BorderLayout());
 
