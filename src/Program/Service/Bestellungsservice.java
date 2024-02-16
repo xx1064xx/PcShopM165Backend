@@ -53,5 +53,18 @@ public class Bestellungsservice {
         return bestellung;
     }
 
+    public void updateBestellung(Bestellung bestellung) {
+        bestellungsDbAccess.updateBestellung(bestellung);
+
+        bestellungsRepository.update(bestellung);
+    }
+
+    public void deleteBestellung(ObjectId bestellungsId) {
+
+        bestellungsDbAccess.deleteBestellung(bestellungsId);
+        bestellungsRepository.delete(bestellungsId);
+
+    }
+
 
 }

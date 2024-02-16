@@ -224,25 +224,72 @@ public class BestellungsUi extends JDialog {
                 if (allFieldsFilled()) {
                     dispose();
 
-                    Date date = stringToDate();
-                    Kunde kunde = mainUi.getKundeByIndex(kundenComboBox.getSelectedIndex());
+                    if (isEmpty) {
+                        Date date = stringToDate();
+                        Kunde kunde = mainUi.getKundeByIndex(kundenComboBox.getSelectedIndex());
 
-                    System.out.println(kunde.getNachname());
+                        System.out.println(kunde.getNachname());
 
-                    Bestellung bestellung = new Bestellung(
-                            date,
-                            kunde,
-                            tempBestellpositionen,
-                            totalPrice
-                    );
+                        Bestellung bestellung = new Bestellung(
+                                date,
+                                kunde,
+                                tempBestellpositionen,
+                                totalPrice
+                        );
 
-                    mainUi.addNewBestellung(bestellung);
+                        mainUi.addNewBestellung(bestellung);
+
+                    } else {
+
+                        Bestellung bestellung = readDataFromUi();
+                        mainUi.updateBestellung(bestellung);
+
+
+                    }
+
                     mainUi.updateAllBestellungen();
 
                 }
 
             }
         });
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                dispose();
+
+                Bestellung bestellung = mainUi.getBestellungByIndex(selectedIndex);
+
+                mainUi.deleteBestellung(bestellung.getBestellungsId());
+                mainUi.updateAllBestellungen();
+
+            }
+        });
+
+    }
+
+    public Bestellung readDataFromUi() {
+
+        Bestellung bestellung = mainUi.getBestellungByIndex(selectedIndex);
+
+        try {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = dateFormat.parse(dateField.getText());
+
+            bestellung.setBestelldatum(date);
+            bestellung.setKunde(mainUi.getKundeByIndex(kundenComboBox.getSelectedIndex()));
+            bestellung.setBestellpositionen(tempBestellpositionen);
+            bestellung.setTotal(totalPrice);
+
+            return bestellung;
+
+        } catch (NumberFormatException | ParseException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
 
     }
 
@@ -251,6 +298,10 @@ public class BestellungsUi extends JDialog {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = dateFormat.format(bestellung.getBestelldatum());
         dateField.setValue(formattedDate);
+
+        ArrayList<Bestellposition> oldBestellungen = bestellung.getBestellpositionen();
+
+        tempBestellpositionen = oldBestellungen;
 
         Kunde kunde = bestellung.getKunde();
 

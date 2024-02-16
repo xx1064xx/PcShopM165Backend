@@ -3,6 +3,7 @@ package Program.DbAccess;
 import Program.Repository.*;
 import Program.Service.Bestellungsservice;
 import com.mongodb.client.*;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
@@ -76,6 +77,45 @@ public class BestellungsDbAccess {
 
         return bestellungsList;
 
+    }
+
+    public void deleteBestellung(ObjectId bestellungsId) {
+        MongoCollection<Document> collection = mongoDatabase.getCollection(collectionName);
+
+        collection.deleteOne(Filters.eq("_id", bestellungsId));
+    }
+
+    public void updateBestellung(Bestellung updatedBestellung) {
+
+        ObjectId bestellungsId = updatedBestellung.getBestellungsId();
+
+        Kunde kunde = updatedBestellung.getKunde();
+
+        Document updatedBestellungDocument = new Document();
+        updatedBestellungDocument.append("bestelldatum", updatedBestellung.getBestelldatum());
+        updatedBestellungDocument.append("kunde", kunde.getKundenId());
+        updatedBestellungDocument.append("total", updatedBestellung.getTotal());
+
+
+        List<Document> bestellpositionenList = new ArrayList<>();
+        for (Bestellposition bestellposition : updatedBestellung.getBestellpositionen()) {
+
+            Computer computer = bestellposition.getComputer();
+
+            Document bestellpositionDoc = new Document("computer", computer.getComputerId());
+            bestellpositionDoc.append("preis", bestellposition.getPreis());
+            bestellpositionDoc.append("stueckzahl", bestellposition.getStueckzahl());
+
+            bestellpositionenList.add(bestellpositionDoc);
+        }
+        updatedBestellungDocument.append("bestellpositionen", bestellpositionenList);
+
+        MongoCollection<Document> collection = mongoDatabase.getCollection(collectionName);
+
+        collection.updateOne(
+                Filters.eq("_id", bestellungsId),
+                new Document("$set", updatedBestellungDocument)
+        );
     }
 
     // hilfsmethoden

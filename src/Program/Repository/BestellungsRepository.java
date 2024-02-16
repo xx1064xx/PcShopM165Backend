@@ -42,7 +42,7 @@ public class BestellungsRepository implements IBestellung {
 
     @Override
     public void update(Bestellung bestellung) {
-        // Aktualisierung einer vorhandenen Bestellung
+
         for (int i = 0; i < bestellungen.size(); i++) {
             if (bestellungen.get(i).getBestellungsId() == bestellung.getBestellungsId()) {
                 bestellungen.set(i, bestellung);
@@ -54,7 +54,7 @@ public class BestellungsRepository implements IBestellung {
 
     @Override
     public void delete(ObjectId bestellungsId) {
-        // Löschen einer Bestellung anhand der ID
+
         for (int i = 0; i < bestellungen.size(); i++) {
             if (bestellungen.get(i).getBestellungsId() == bestellungsId) {
                 bestellungen.remove(i);

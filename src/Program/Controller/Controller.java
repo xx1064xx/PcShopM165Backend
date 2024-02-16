@@ -106,6 +106,12 @@ public class Controller {
         Bestellung bestellung = bestellungsservice.getByIndex(index);
         return bestellung;
     }
+    public void updateBestellung(Bestellung bestellung) {
+        bestellungsservice.updateBestellung(bestellung);
+    }
+    public void deleteBestellung(ObjectId bestellungsId) {
+        bestellungsservice.deleteBestellung(bestellungsId);
+    }
 
 
 }

@@ -350,4 +350,17 @@ public class MainUi extends JFrame {
 
     }
 
+    public Bestellung getBestellungByIndex(int index) {
+        Bestellung bestellung = controller.getBestellungByIndex(index);
+        return bestellung;
+    }
+
+    public void updateBestellung(Bestellung bestellung) {
+        controller.updateBestellung(bestellung);
+    }
+
+    public void deleteBestellung(ObjectId bestellungsid) {
+        controller.deleteBestellung(bestellungsid);
+    }
+
 }
