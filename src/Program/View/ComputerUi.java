@@ -126,7 +126,7 @@ public class ComputerUi extends JDialog {
             }
         });
 
-        // erlaubt nur double
+        // erlaubt nur double mit maximal 2 kommastellen
         ((AbstractDocument) einzelpreisField.getDocument()).setDocumentFilter(new DocumentFilter() {
             @Override
             public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
@@ -141,6 +141,19 @@ public class ComputerUi extends JDialog {
             private boolean isValidDouble(String text) {
                 if (text.isEmpty()) {
                     return true;
+                }
+
+                int decimalPointIndex = text.indexOf('.');
+                if (decimalPointIndex != -1 && text.length() - decimalPointIndex > 3) {
+
+                    return false;
+                }
+
+                for (char c : text.toCharArray()) {
+                    if (!Character.isDigit(c) && c != '.') {
+
+                        return false;
+                    }
                 }
 
                 try {
